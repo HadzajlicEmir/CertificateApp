@@ -6,28 +6,35 @@ import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { Certificate } from './NewCertificate';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
-interface Certificate{
-    supplier: String,
-    certificateType: String,
-    validFrom: Date,
-    validTo: Date
-}
 
 function CertificateOverview(){
+    const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<SVGSVGElement>) => {
+    setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+    setAnchorEl(null);
+    };
     const columns = ["Supplier", "Certificate Type", "Valid from", "Valid to"];
-
-    const certificates = [
-    {supplier: "Prvo", certificateType: "Tip 1", validFrom: "24.5.2000", validTo: "23.3.2024"},
-    {supplier: "Drugo", certificateType: "Tip 2", validFrom: "24.5.2000", validTo: "23.3.2024"},
-    {supplier: "Trece", certificateType: "Tip 3", validFrom: "24.5.2000", validTo: "23.3.2024"}
-
-];
+    let certificates:Certificate[] = [];
+    const certificatesString = localStorage.getItem('certificates');
+    if (certificatesString){
+     certificates = JSON.parse(certificatesString);
+    } 
  
     return(
         <Table>
         <TableHead>
             <TableRow>
+            <TableCell></TableCell>
             <TableCell>Supplier</TableCell>
             <TableCell>Certificate Type</TableCell>
             <TableCell>Valid from</TableCell>
@@ -36,7 +43,20 @@ function CertificateOverview(){
         </TableHead>
         <TableBody>
             {certificates.map(row => (
-                <TableRow key={row.supplier}>
+                <TableRow key={row.id}>
+                    <TableCell> <SettingsIcon onClick={handleClick} /> </TableCell>
+                    <Menu
+                        open={open}
+                        anchorEl={anchorEl}
+                        onClose={handleClose}
+                    >
+                    <MenuItem>
+                    <Link to={'/new-certificate/'.concat(row.id.toString())}>Edit</Link>
+                    </MenuItem>
+                    <MenuItem>
+                    Delete
+                    </MenuItem>
+                    </Menu>
                     <TableCell>{row.supplier}</TableCell>
                     <TableCell>{row.certificateType}</TableCell>
                     <TableCell>{row.validFrom}</TableCell>
@@ -51,3 +71,5 @@ function CertificateOverview(){
 }
 
 export default CertificateOverview;
+
+//<Link to={'/new-certificate/'.concat(row.id.toString())}></Link>         

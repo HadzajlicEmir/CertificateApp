@@ -22,7 +22,7 @@ function App() {
         <Route path={"/example1"} element={<Example1 />} />
         <Route path={"/example2"} element={<Example2 />} />
         <Route path={"/example3"} element={<Example3 />} />
-        <Route path={"/new-certificate"} element={<NewCertificate />} />
+        <Route path={"/new-certificate/:paramId?"} element={<NewCertificate />} />
         <Route path={"/"} element={<Start />} />
       </Routes>  
     </div>
