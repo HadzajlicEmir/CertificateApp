@@ -2,6 +2,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
+import {Link} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface MenuItem {
     Label: String,
@@ -10,8 +12,9 @@ interface MenuItem {
     submenuItems: String[]
 };
 function SideMenu(){
+const {t} = useTranslation();
 const [submenuOpen, setSubmenuOpen] = useState(false);
-const machineLearningItems = ["Example 1", "Example 2", "Example 3"];
+const machineLearningItems = [t("example1"),t("example2"),t("example3")];
 const iconStyle = {fontSize: '30px', marginRight: '5px', marginLeft: '25px', color: '#3f9ac9'};
 const menuItems = [{Label: "Start", Icon: <HomeIcon sx = {iconStyle}/>, isDropDown: false}, 
 {Label: "Machine Learning", Icon: <MenuIcon sx = {iconStyle}/>, isDropDown: true, submenuItems: machineLearningItems}];
@@ -25,15 +28,19 @@ function menuClick(isDropDown: boolean){
     }
 }
 
+function subMenuItemCLick(event: any) {
+    event.stopPropagation()
+}
+
 return(
-<div style = {{width: '250px', backgroundColor: '#e8e9eb'}}>
+<div style = {{width: '250px', backgroundColor: '#e8e9eb', height: 'calc(100vh - 35px)'}}>
 {menuItems.map(item => (
 <div onClick = {()=> menuClick(item.isDropDown)} key = {item.Label}>
     <div style={{display: 'flex', alignItems: 'center', marginBottom: "10px", color: '#3f9ac9'}}>
-    {item.Icon} {item.Label} {item.isDropDown ? <ExpandMoreIcon /> : undefined} 
+    {item.Icon} {item.isDropDown ? <div>{item.Label} <ExpandMoreIcon /></div> : <Link style= {{textDecoration: 'none', color: '#3f9ac9'}} to={"/".concat(item.Label)}>{item.Label}</Link>}
     </div>
-    {submenuOpen ? <div style={{ marginLeft: "45px", color: '#3f9ac9'}}>
-        {item.submenuItems?.map(subItem => <div>{subItem}</div>)}
+    {submenuOpen ? <div onClick={(event) => subMenuItemCLick(event)} style={{ marginLeft: "45px", color: '#3f9ac9'}}>
+        {item.submenuItems?.map(subItem => <div><Link style= {{textDecoration: 'none', color: '#3f9ac9'}} to={"/".concat(subItem.replaceAll(" ", ""))}>{subItem}</Link></div>)}
         </div> : undefined}
 </div>))}
 </div>
