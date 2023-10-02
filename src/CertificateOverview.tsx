@@ -16,9 +16,11 @@ import MenuItem from '@mui/material/MenuItem';
 
 function CertificateOverview(){
     const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
+    const [id, setId] = useState(0)
     const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<SVGSVGElement>) => {
+    const handleClick = (event: React.MouseEvent<SVGSVGElement>, id: number) => {
     setAnchorEl(event.currentTarget);
+    setId(id)
     };
     const handleClose = () => {
     setAnchorEl(null);
@@ -28,7 +30,13 @@ function CertificateOverview(){
     const certificatesString = localStorage.getItem('certificates');
     if (certificatesString){
      certificates = JSON.parse(certificatesString);
-    } 
+    }
+    
+    const handleDelete = () => {
+        const updatedValues = certificates.filter(item => item.id !== id);
+        localStorage.setItem('certificates', JSON.stringify(updatedValues));
+        handleClose();
+    }
  
     return(
         <Table>
@@ -44,16 +52,16 @@ function CertificateOverview(){
         <TableBody>
             {certificates.map(row => (
                 <TableRow key={row.id}>
-                    <TableCell> <SettingsIcon onClick={handleClick} /> </TableCell>
+                    <TableCell> <SettingsIcon onClick={(event) => handleClick(event, row.id)} /> </TableCell>
                     <Menu
                         open={open}
                         anchorEl={anchorEl}
                         onClose={handleClose}
                     >
-                    <MenuItem>
-                    <Link to={'/new-certificate/'.concat(row.id.toString())}>Edit</Link>
-                    </MenuItem>
-                    <MenuItem>
+                    <Link to={'/new-certificate/'.concat(id.toString())}>
+                    <MenuItem>Edit</MenuItem>
+                        </Link>
+                    <MenuItem onClick={() => handleDelete()}>
                     Delete
                     </MenuItem>
                     </Menu>
