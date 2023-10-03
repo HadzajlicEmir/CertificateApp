@@ -10,6 +10,7 @@ import Table from '@mui/material/Table'
 import Radio from '@mui/material/Radio';
 import { useState } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 interface SupplierDialog{
     open: boolean,
@@ -77,19 +78,19 @@ return(
         </div>
         <div style={{height: '800px', width: '1000px', backgroundColor: 'white'}} >
         <div style={{display: 'flex', flexDirection:'column', border:'gray solid 1px', margin:'10px',paddingBottom: '10px'}}>
-            <Typography sx={{backgroundColor: '#3f9ac9'}}> Search criteria</Typography>
+            <Typography sx={{backgroundColor: '#3f9ac9', color:'white', height:'30px'}}><ArrowDropDownIcon/> Search criteria</Typography>
             <div style={{display: 'flex', flexDirection:'row'}}>
                 <div style={{marginLeft: '5px'}}>
                 <Typography fontStyle={'italic'}>Supplier name</Typography>
-                <input onChange={(event) => setSupplierNameSearch(event.target.value)} type='text' value={supplierNameSearch} style={{width: '300px'}}></input>
+                <input onChange={(event) => setSupplierNameSearch(event.target.value)} type='text' value={supplierNameSearch} style={{width: '300px', height: '30px'}}></input>
                 </div>
                 <div style={{marginLeft: '5px'}}>
                 <Typography fontStyle={'italic'}>Supplier index</Typography>
-                <input onChange={(event) => setSupplierIndexSearch(event.target.value)} type='text' value={supplierIndexSearch} style={{width: '300px'}}></input>
+                <input onChange={(event) => setSupplierIndexSearch(event.target.value)} type='text' value={supplierIndexSearch} style={{width: '300px', height: '30px'}}></input>
                 </div>
                 <div style={{marginLeft: '5px'}}>
                 <Typography fontStyle={'italic'}>City</Typography>
-                <input onChange={(event) => setSupplierCitySearch(event.target.value)} type='text' value={supplierCitySearch} style={{width: '300px'}}></input>
+                <input onChange={(event) => setSupplierCitySearch(event.target.value)} type='text' value={supplierCitySearch} style={{width: '300px', height: '30px'}}></input>
                 </div>
             </div>
             <div style={{display: 'flex', flexDirection:'row', paddingTop: '30px', marginLeft: '5px'}}>
@@ -98,7 +99,7 @@ return(
             </div>
         </div>
         <div style = {{margin:'10px', border:'1px solid gray'}}>
-        <Typography sx={{backgroundColor: '#3f9ac9'}}>Supplier List</Typography>
+        <Typography sx={{backgroundColor: '#3f9ac9', color:'white', height:'30px'}}><ArrowDropDownIcon/>Supplier List</Typography>
         <Table sx={{border:'1px solid gray', margin:'10px', width:'950px'}}>
         <TableHead>
             <TableRow>

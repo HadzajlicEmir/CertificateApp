@@ -9,19 +9,28 @@ import { useParams } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import SupplierDialog from './SupplierDialog';
+import UserDialog from './UserDialog';
+import { User } from './UserDialog';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Table from '@mui/material/Table'
+
 
 export interface Certificate{
     id: number,
     supplier: string,
     certificateType: string,
     validFrom: string,
-    validTo: string
+    validTo: string,
+    users: User[]
 }
 
 function NewCertificate(){    
     
     const uniqueId = Math.floor(Math.random()*10000000000);
-    const [newCertificate, setNewCertificate] = useState<Certificate>({id:uniqueId, supplier:'', certificateType:'', validFrom: '', validTo: ''});
+    const [newCertificate, setNewCertificate] = useState<Certificate>({id:uniqueId, supplier:'', certificateType:'', validFrom: '', validTo: '', users:[]});
 
     const {paramId} = useParams();
     useEffect(()=>{
@@ -35,20 +44,23 @@ function NewCertificate(){
             } 
         }
         }
-    }, [])
+    }, [paramId])
     
 
     function changeSupplier(value: string){
-        setNewCertificate({...newCertificate, supplier: value})
+        setNewCertificate({...newCertificate, supplier: value});
     }
     function changeCertificateType(value: string){
-        setNewCertificate({...newCertificate, certificateType: value})
+        setNewCertificate({...newCertificate, certificateType: value});
     }
     function changeValidFrom(value: string){
-        setNewCertificate({...newCertificate, validFrom: value})
+        setNewCertificate({...newCertificate, validFrom: value});
     }
     function changeValidTo(value: string){
-        setNewCertificate({...newCertificate, validTo: value})
+        setNewCertificate({...newCertificate, validTo: value});
+    }
+    function changeUsers(value: User[]){
+        setNewCertificate({...newCertificate, users: value});
     }
     function onSave(){
         const certificatesString = localStorage.getItem('certificates');
@@ -60,30 +72,39 @@ function NewCertificate(){
                     certificate.certificateType = newCertificate.certificateType;
                     certificate.validFrom = newCertificate.validFrom;
                     certificate.validTo = newCertificate.validTo;
+                    certificate.users = newCertificate.users;
                 }
             })
             localStorage.setItem('certificates', JSON.stringify(certificates));            
-        } else {
-        if (certificatesString){
-        let certificates = JSON.parse(certificatesString);
-        certificates.push(newCertificate);
-        localStorage.setItem('certificates', JSON.stringify(certificates));
-       } else {
-        let certificates = [];
-        certificates.push(newCertificate);
-        localStorage.setItem('certificates', JSON.stringify(certificates));
-       }
+        }  
+        else {
+            if (certificatesString){
+            let certificates = JSON.parse(certificatesString);
+            certificates.push(newCertificate);
+            localStorage.setItem('certificates', JSON.stringify(certificates));
+            } 
+            else {
+            let certificates = [];
+            certificates.push(newCertificate);
+            localStorage.setItem('certificates', JSON.stringify(certificates));
+            }
+        }
     }
-}
+    function removeUser(value: User){
+        console.log("emir");
+        changeUsers(newCertificate.users.filter(item => item.id !== value.id));
+    }
     const [isOpen, setIsOpen] = useState(false);
+    const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
 
+    console.log(newCertificate.users)
     return(
         <div style={{display: 'flex', flexDirection: 'row', margin: '10px'}}>
             <div style={{display:'flex', flexDirection:'column'}}>
                 <div style={{ marginBottom: '10px'}}>
                 <Typography sx={{fontStyle: 'italic'}}>Supplier: </Typography>
                 <div style={{display:'flex', flexDirection:'row'}}>
-                    <input onChange={(event) => changeSupplier(event.target.value)} type='text' value={newCertificate.supplier} style={{ width: '500px', height: '30px'}}/>
+                    <input readOnly onChange={(event) => changeSupplier(event.target.value)} type='text' value={newCertificate.supplier} style={{ width: '500px', height: '30px'}}/>
                     <Button onClick={()=>setIsOpen(true)}><SearchIcon /></Button>
                     <Button onClick={()=>changeSupplier("")}><ClearIcon /></Button>
                     <SupplierDialog open={isOpen} onClose={()=>setIsOpen(false)} selectSupplier={(value: string)=>changeSupplier(value)}/>
@@ -112,6 +133,31 @@ function NewCertificate(){
                     <Typography sx={{fontStyle: 'italic'}}>Valid to: </Typography>
                     <input value={newCertificate.validTo} onChange={(event) => changeValidTo(event.target.value)} style={{width: '500px'}} type='date' />
                 </div>
+                    <Button onClick={()=>setIsUserDialogOpen(true)}>
+                        Add participant
+                    </Button>
+                    <UserDialog open={isUserDialogOpen} onClose={()=>setIsUserDialogOpen(false)} selectUsers={(value: User[])=>changeUsers(value)} initialValue={newCertificate.users}/>
+                    <Table sx={{border:'1px solid gray', margin:'10px', width:'950px'}}>
+                    <TableHead>
+            <TableRow>
+            <TableCell></TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Department</TableCell>
+            <TableCell>E-mail</TableCell>
+            </TableRow>
+        </TableHead>
+        <TableBody>
+            {newCertificate.users.map(row => (
+                <TableRow key={row.id}>
+                    <TableCell><ClearIcon onClick={()=>removeUser(row)} /></TableCell>
+                    <TableCell>{row.firstName.concat(', '.concat(row.lastName).concat(' (').concat(row.plant).concat(')'))}</TableCell>
+                    <TableCell>{row.department}</TableCell>
+                    <TableCell>{row.email}</TableCell>
+                </TableRow>
+            ))}
+        </TableBody>
+        </Table>
+                    
                     <Button onClick = {onSave} sx={{backgroundColor: 'green', color: 'white'}}>
                         Save
                     </Button>
