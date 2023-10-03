@@ -37,7 +37,7 @@ function CertificateOverview(){
         localStorage.setItem('certificates', JSON.stringify(updatedValues));
         handleClose();
     }
- 
+    
     return(
         <Table>
         <TableHead>

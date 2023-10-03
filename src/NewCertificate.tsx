@@ -6,7 +6,9 @@ import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
+import SupplierDialog from './SupplierDialog';
 
 export interface Certificate{
     id: number,
@@ -25,14 +27,11 @@ function NewCertificate(){
     useEffect(()=>{
         if (paramId){
             const certificatesString = localStorage.getItem('certificates');
-            console.log('emir');
         if(certificatesString){
             const certificates = JSON.parse(certificatesString);
             const certificate = certificates.find((item:Certificate) => item.id === Number.parseInt(paramId));
-            console.log('emir2');
             if (certificate){
             setNewCertificate(certificate);
-            console.log('emir3');
             } 
         }
         }
@@ -76,22 +75,25 @@ function NewCertificate(){
        }
     }
 }
-
+    const [isOpen, setIsOpen] = useState(false);
 
     return(
         <div style={{display: 'flex', flexDirection: 'row', margin: '10px'}}>
             <div style={{display:'flex', flexDirection:'column'}}>
                 <div style={{ marginBottom: '10px'}}>
                 <Typography sx={{fontStyle: 'italic'}}>Supplier: </Typography>
+                <div style={{display:'flex', flexDirection:'row'}}>
                     <input onChange={(event) => changeSupplier(event.target.value)} type='text' value={newCertificate.supplier} style={{ width: '500px', height: '30px'}}/>
+                    <Button onClick={()=>setIsOpen(true)}><SearchIcon /></Button>
+                    <Button onClick={()=>changeSupplier("")}><ClearIcon /></Button>
+                    <SupplierDialog open={isOpen} onClose={()=>setIsOpen(false)} selectSupplier={(value: string)=>changeSupplier(value)}/>
+                    </div>
                     </div>
                 <div style={{ marginBottom: '10px'}}>
                 <Typography sx={{fontStyle: 'italic'}}>Certificate type:</Typography>
                 <FormControl sx={{width: '500px' }}>
-                <InputLabel id="demo-simple-select-helper-label">Select your option</InputLabel>
+                <InputLabel>Select your option</InputLabel>
                     <Select 
-                        labelId="demo-simple-select-helper-label"
-                        id="demo-simple-select-helper-label"
                         label = 'Select your option'
                         value={newCertificate.certificateType}
                         onChange={(event) => changeCertificateType(event.target.value)}
