@@ -94,8 +94,8 @@ return(
                 </div>
             </div>
             <div style={{display: 'flex', flexDirection:'row', paddingTop: '30px', marginLeft: '5px'}}>
-            <Button onClick={()=>onSearch()} sx={{width:'200px', backgroundColor: 'darkblue', color: 'white'}}>Search</Button>
-            <Button onClick={()=>onReset()} sx={{width:'200px'}}>Reset</Button>
+            <Button onClick={()=>onSearch()} sx={{width:'200px', backgroundColor: 'darkblue', color: 'white', textTransform:'none'}}>Search</Button>
+            <Button onClick={()=>onReset()} sx={{width:'200px', textTransform:'none'}}>Reset</Button>
             </div>
         </div>
         <div style = {{margin:'10px', border:'1px solid gray'}}>
@@ -121,8 +121,8 @@ return(
         </TableBody>
         </Table>
         <div style={{display: 'flex', flexDirection:'row', paddingTop: '30px', marginLeft: '10px'}}>
-            <Button onClick={() => onSelect()} sx={{backgroundColor:'orange', width:'200px'}}>Select</Button>
-            <Button sx={{width:'200px'}} onClick={handleClose}>Cancel</Button>
+            <Button onClick={() => onSelect()} sx={{backgroundColor:'orange', width:'200px', textTransform:'none'}}>Select</Button>
+            <Button sx={{width:'200px', textTransform:'none'}} onClick={handleClose}>Cancel</Button>
         </div>
         </div>
         </div>

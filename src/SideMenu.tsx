@@ -11,6 +11,7 @@ interface MenuItem {
     isDropDown: boolean,
     submenuItems: String[]
 };
+
 function SideMenu(){
 const {t} = useTranslation();
 const [submenuOpen, setSubmenuOpen] = useState(false);
@@ -23,8 +24,6 @@ const menuItems = [{Label: "Start", Icon: <HomeIcon sx = {iconStyle}/>, isDropDo
 function menuClick(isDropDown: boolean){
     if(isDropDown) {
     setSubmenuOpen(!submenuOpen);
-    } else {
-        
     }
 }
 
@@ -33,7 +32,7 @@ function subMenuItemCLick(event: any) {
 }
 
 return(
-<div style = {{width: '250px', backgroundColor: '#e8e9eb', height: 'calc(100vh - 35px)'}}>
+<div style = {{width: '250px', backgroundColor: '#e8e9eb', height: 'calc(100vh - 45px)'}}>
 {menuItems.map(item => (
 <div onClick = {()=> menuClick(item.isDropDown)} key = {item.Label}>
     <div style={{display: 'flex', alignItems: 'center', marginBottom: "10px", color: '#3f9ac9'}}>

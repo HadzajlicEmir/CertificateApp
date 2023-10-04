@@ -1,18 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Header from './Header';
 import SideMenu from './SideMenu';
-import CertificateOverview from './CertificateOverview';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
 import Start from './Start';
 import Example1 from './Example1';
 import Example2 from './Example2';
 import Example3 from './Example3';
 import NewCertificate from './NewCertificate';
+import { useState } from 'react';
+import { User, users } from './UserDialog';
+import { UserContext } from './UserContext';
 
 function App() {
+  const [user, setUser] = useState<User>(users[0])
   return (
+    <UserContext.Provider value={{ currentUser: user, setCurrentUser: setUser }}>
    <Router>
     <Header />
     <div style={{ display: "flex", flexDirection: "row"}}>
@@ -27,6 +29,7 @@ function App() {
       </Routes>  
     </div>
     </Router>
+    </UserContext.Provider>
   );
 }
 

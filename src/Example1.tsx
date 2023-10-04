@@ -5,9 +5,11 @@ import { Button } from '@mui/material';
 function Example1(){
 return(
     <div>
-        <Button sx={{backgroundColor: 'olive'}}>
-            <Link style={{textDecoration: 'none', color: 'white'}} to='/new-certificate'>New Certificate</Link>
-            </Button>
+        <Link to='/new-certificate'>
+        <Button sx={{backgroundColor: '#c2cb38', width:'150px', border:'1px solid olive', textTransform:'none', margin: '5px', textDecoration: 'none', color: 'white', borderRadius: '0px', "&:hover":{backgroundColor: '#c2cb38'}}}>
+            New certificate
+        </Button>
+        </Link>
         <CertificateOverview />
     </div>
 )

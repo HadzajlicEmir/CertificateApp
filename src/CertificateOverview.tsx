@@ -39,14 +39,16 @@ function CertificateOverview(){
     }
     
     return(
+        <div style={{padding: '10px', border: '2px solid lightgray', margin: '5px'}}>
+        <TableContainer sx={{borderTop: '1px solid lightgray', margin:'5px'}}>
         <Table>
         <TableHead>
             <TableRow>
             <TableCell></TableCell>
-            <TableCell>Supplier</TableCell>
-            <TableCell>Certificate Type</TableCell>
-            <TableCell>Valid from</TableCell>
-            <TableCell>Valid to</TableCell>
+            <TableCell style={{borderLeft:'1px solid lightgray', width:'250px'}}>Supplier</TableCell>
+            <TableCell style={{borderLeft:'1px solid lightgray', width:'250px'}}>Certificate Type</TableCell>
+            <TableCell style={{borderLeft:'1px solid lightgray', width:'250px'}}>Valid from</TableCell>
+            <TableCell style={{borderLeft:'1px solid lightgray', width:'250px'}}>Valid to</TableCell>
             </TableRow>
         </TableHead>
         <TableBody>
@@ -58,10 +60,10 @@ function CertificateOverview(){
                         anchorEl={anchorEl}
                         onClose={handleClose}
                     >
-                    <Link to={'/new-certificate/'.concat(id.toString())}>
+                    <Link style={{textDecoration:'none', color: 'black'}} to={'/new-certificate/'.concat(id.toString())}>
                     <MenuItem>Edit</MenuItem>
-                        </Link>
-                    <MenuItem onClick={() => handleDelete()}>
+                    </Link>
+                    <MenuItem sx={{color: 'black'}} onClick={() => handleDelete()}>
                     Delete
                     </MenuItem>
                     </Menu>
@@ -69,15 +71,14 @@ function CertificateOverview(){
                     <TableCell>{row.certificateType}</TableCell>
                     <TableCell>{row.validFrom}</TableCell>
                     <TableCell>{row.validTo}</TableCell>
-
                 </TableRow>
             ))}
         </TableBody>
         </Table>
+        </TableContainer>
+        </div>
     )
 
 }
 
-export default CertificateOverview;
-
-//<Link to={'/new-certificate/'.concat(row.id.toString())}></Link>         
+export default CertificateOverview;     

@@ -11,7 +11,6 @@ import { useEffect, useState } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Checkbox from '@mui/material/Checkbox'
-import { init } from 'i18next';
 
 interface UserDialog{
     open: boolean,
@@ -19,6 +18,7 @@ interface UserDialog{
     selectUsers: (value: User[]) => void,
     initialValue: User[]
 }
+
 export interface User{
     id: number,
     firstName: string,
@@ -29,19 +29,20 @@ export interface User{
     email: string
 }
 
+export const users:User[] = [
+    {id:1, firstName:'Simon', lastName:'Zwolfer', userId:'ZWOELF', department:'ITM/FP', plant:'096', email:'simonz@mail.com'},
+    {id:2, firstName:'Wolfgang', lastName:'Stark', userId:'WOLFST', department:'ITM/FP', plant:'094', email:'wolfgangs@mail.com'},
+    {id:3, firstName:'Emir', lastName:'Hadzajlic', userId:'HADZEM', department:'PR', plant:'092', email:'emirh@mail.com'},
+    {id:4, firstName:'Wilt', lastName:'Chamberlain', userId:'CHAMWI', department:'HR', plant:'20000', email:'wilth@mail.com'},
+    {id:5, firstName:'Edin', lastName:'Dzeko', userId:"DZEDIN", department:'FR', plant:'065', email:'edindz@mail.com'},
+]
 
 function UserDialog(props: UserDialog){
    
     const {open, onClose, selectUsers, initialValue} = props;  
     const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
     useEffect(()=>{setSelectedUsers(initialValue)},[initialValue])
-    const users = [
-        {id:1, firstName:'Simon', lastName:'Zwolfer', userId:'ZWOELF', department:'ITM/FP', plant:'096', email:'simonz@mail.com'},
-        {id:2, firstName:'Wolfgang', lastName:'Stark', userId:'WOLFST', department:'ITM/FP', plant:'094', email:'wolfgangs@mail.com'},
-        {id:3, firstName:'Emir', lastName:'Hadzajlic', userId:'HADZEM', department:'PR', plant:'092', email:'emirh@mail.com'},
-        {id:4, firstName:'Wilt', lastName:'Chamberlain', userId:'CHAMWI', department:'HR', plant:'20000', email:'wilth@mail.com'},
-        {id:5, firstName:'Edin', lastName:'Dzeko', userId:"DZEDIN", department:'FR', plant:'065', email:'edindz@mail.com'},
-    ]
+   
 
     function handleClose(){
         onClose();
@@ -86,14 +87,21 @@ function UserDialog(props: UserDialog){
            setSelectedUsers(selectedUsers.filter(item => item.id !== value.id));
         }
     }
+    function selectAllUsers(checked: boolean){
+        if(checked){
+            setSelectedUsers(userList);
+        } else {
+            setSelectedUsers([]);
+        }
+    }
 return(
     <Dialog maxWidth={false} onClose={handleClose} open={open}>
         <div style={{display: 'flex', flexDirection:'row', border:'gray solid 1px', margin:'2px', justifyContent:'space-between'}}>
         <DialogTitle sx={{}}>Search for persons</DialogTitle>
         <Button sx={{}} onClick={handleClose}> <ClearIcon /> </Button>
         </div>
-        <div style={{height: '800px', width: '1000px', backgroundColor: 'white'}} >
-        <div style={{display: 'flex', flexDirection:'column', border:'gray solid 1px', margin:'10px',paddingBottom: '10px'}}>
+        <div style={{height: '800px', width: '1000px', backgroundColor: '#ffffff'}} >
+        <div style={{display: 'flex', flexDirection:'column', border:'gray solid 1px', margin:'10px', paddingBottom: '10px'}}>
             <Typography sx={{backgroundColor: '#3f9ac9', color:'white', height:'30px'}}> <ArrowDropDownIcon/>Search criteria</Typography>
             <div style={{display: 'flex', flexDirection:'row'}}>
                 <div style={{marginLeft: '5px'}}>
@@ -120,21 +128,21 @@ return(
                 </div>
             </div>
             <div style={{display: 'flex', flexDirection:'row', paddingTop: '30px', marginLeft: '5px'}}>
-            <Button onClick={()=>onSearch()} sx={{width:'200px', backgroundColor: 'darkblue', color: 'white'}}>Search</Button>
-            <Button onClick={()=>onReset()} sx={{width:'200px'}}>Reset</Button>
+            <Button onClick={()=>onSearch()} sx={{width:'200px', backgroundColor: '#265b7a', color: 'white', textTransform:'none'}}>Search</Button>
+            <Button onClick={()=>onReset()} sx={{width:'200px', textTransform:'none', backgroundColor: '#f6f6f6', color: 'black'}}>Reset</Button>
             </div>
         </div>
-        <div style = {{margin:'10px', border:'1px solid gray'}}>
+        <div style={{margin:'10px', border:'1px solid gray'}}>
         <Typography sx={{backgroundColor: '#3f9ac9', color:'white', height:'30px'}}><ArrowDropDownIcon/>Person List</Typography>
         <Table sx={{border:'1px solid gray', margin:'10px', width:'950px'}}>
         <TableHead>
             <TableRow>
-            <TableCell><Checkbox  size='small'/></TableCell>
-            <TableCell>First name</TableCell>
-            <TableCell>Last name</TableCell>
-            <TableCell>User ID</TableCell>
-            <TableCell>Department</TableCell>
-            <TableCell>Plant</TableCell>
+                <TableCell><Checkbox onChange={(event)=>selectAllUsers(event.target.checked)} size='small'/></TableCell>
+                <TableCell>First name</TableCell>
+                <TableCell>Last name</TableCell>
+                <TableCell>User ID</TableCell>
+                <TableCell>Department</TableCell>
+                <TableCell>Plant</TableCell>
             </TableRow>
         </TableHead>
         <TableBody>
@@ -150,16 +158,15 @@ return(
             ))}
         </TableBody>
         </Table>
-        <div style={{display: 'flex', flexDirection:'row', paddingTop: '30px', marginLeft: '10px'}}>
-            <Button onClick={() => onSelect()} sx={{backgroundColor:'orange', width:'200px'}}>Select</Button>
-            <Button sx={{width:'200px'}} onClick={handleClose}>Cancel</Button>
+        <div style={{display: 'flex', flexDirection:'row', paddingTop: '10px', paddingBottom: '10px', marginLeft: '10px'}}>
+            <Button onClick={() => onSelect()} sx={{backgroundColor: '#f0d093', width:'200px', textTransform:'none', color:'white', border: '1px solid gray'}}>Select</Button>
+            <Button sx={{width:'200px', textTransform:'none', color: 'black', border: '1px solid gray', marginLeft: '2px', backgroundColor: '#f6f6f6'}} onClick={handleClose}>Cancel</Button>
         </div>
         </div>
         </div>
     </Dialog>
 
 )
-
 }
 
 export default UserDialog;

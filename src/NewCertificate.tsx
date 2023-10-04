@@ -1,11 +1,11 @@
 import { Button } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import SupplierDialog from './SupplierDialog';
@@ -15,7 +15,10 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Table from '@mui/material/Table'
+import Table from '@mui/material/Table';
+import TableContainer from '@mui/material/TableContainer'
+import { UserContext } from './UserContext';
+import { DesktopDatePicker } from '@mui/x-date-pickers';
 
 
 export interface Certificate{
@@ -75,7 +78,8 @@ function NewCertificate(){
                     certificate.users = newCertificate.users;
                 }
             })
-            localStorage.setItem('certificates', JSON.stringify(certificates));            
+            localStorage.setItem('certificates', JSON.stringify(certificates));
+                      
         }  
         else {
             if (certificatesString){
@@ -91,31 +95,32 @@ function NewCertificate(){
         }
     }
     function removeUser(value: User){
-        console.log("emir");
         changeUsers(newCertificate.users.filter(item => item.id !== value.id));
     }
+  
     const [isOpen, setIsOpen] = useState(false);
     const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
 
-    console.log(newCertificate.users)
+    const userContext = useContext(UserContext);
+
     return(
         <div style={{display: 'flex', flexDirection: 'row', margin: '10px'}}>
             <div style={{display:'flex', flexDirection:'column'}}>
                 <div style={{ marginBottom: '10px'}}>
-                <Typography sx={{fontStyle: 'italic'}}>Supplier: </Typography>
-                <div style={{display:'flex', flexDirection:'row'}}>
-                    <input readOnly onChange={(event) => changeSupplier(event.target.value)} type='text' value={newCertificate.supplier} style={{ width: '500px', height: '30px'}}/>
-                    <Button onClick={()=>setIsOpen(true)}><SearchIcon /></Button>
-                    <Button onClick={()=>changeSupplier("")}><ClearIcon /></Button>
+                <Typography fontSize={'14px'} sx={{fontStyle: 'italic', marginLeft:'10px'}}>Supplier: </Typography>
+                <div style={{display:'flex', flexDirection:'row', marginLeft:'10px'}}>
+                    <input readOnly onChange={(event) => changeSupplier(event.target.value)} type='text' value={newCertificate.supplier} style={{ width: '500px', height: '35px', border: '1px solid lightgray', borderRadius: '0px'}}/>
+                    <Button sx={{backgroundColor: '#eaeaea', color: 'black', border: '1px solid lightgray', borderRadius: '0px', width:'65px'}} onClick={()=>setIsOpen(true)}><SearchIcon /></Button>
+                    <Button sx={{backgroundColor: '#eaeaea', color: 'black', border: '1px solid lightgray', borderRadius: '0px', width:'65px'}} onClick={()=>changeSupplier("")}><ClearIcon /></Button>
                     <SupplierDialog open={isOpen} onClose={()=>setIsOpen(false)} selectSupplier={(value: string)=>changeSupplier(value)}/>
-                    </div>
-                    </div>
-                <div style={{ marginBottom: '10px'}}>
-                <Typography sx={{fontStyle: 'italic'}}>Certificate type:</Typography>
-                <FormControl sx={{width: '500px' }}>
-                <InputLabel>Select your option</InputLabel>
-                    <Select 
-                        label = 'Select your option'
+                </div>
+                </div>
+                <div style={{ marginBottom: '10px', marginLeft:'10px'}}>
+                <Typography fontSize={'14px'} sx={{fontStyle: 'italic'}}>Certificate type:</Typography>
+                <FormControl sx={{width: '635px'}}>
+                <InputLabel>Select your option: </InputLabel>
+                    <Select sx={{height: '45px', borderRadius: '0px', backgroundColor: '#fafafa'}}
+                        label='Select your option'
                         value={newCertificate.certificateType}
                         onChange={(event) => changeCertificateType(event.target.value)}
                 >  
@@ -125,25 +130,28 @@ function NewCertificate(){
                 </Select>
                 </FormControl>
                 </div>
-                <div style={{ marginBottom: '10px'}}>
-                    <Typography sx={{fontStyle: 'italic'}}>Valid from: </Typography>
-                    <input value={newCertificate.validFrom} onChange={(event) => changeValidFrom(event.target.value)} style={{width: '500px'}} type='date' />
+                <div style={{ marginBottom: '10px', marginLeft:'10px'}}>
+                    <Typography fontSize={'14px'} sx={{fontStyle: 'italic'}}>Valid from: </Typography>
+                    <input value={newCertificate.validFrom} onChange={(event) => changeValidFrom(event.target.value)} style={{width: '630px'}} type='date' />
                 </div>
-                <div style={{ marginBottom: '10px'}}>
-                    <Typography sx={{fontStyle: 'italic'}}>Valid to: </Typography>
-                    <input value={newCertificate.validTo} onChange={(event) => changeValidTo(event.target.value)} style={{width: '500px'}} type='date' />
+                <div style={{ marginBottom: '10px', marginLeft:'10px'}}>
+                    <Typography fontSize={'14px'} sx={{fontStyle: 'italic'}}>Valid to: </Typography>
+                    <input value={newCertificate.validTo} onChange={(event) => changeValidTo(event.target.value)} style={{width: '630px'}} type='date' />
                 </div>
-                    <Button onClick={()=>setIsUserDialogOpen(true)}>
-                        Add participant
+                    <Typography sx={{marginLeft:'10px'}} fontStyle={'italic'} fontSize={'14px'}>Assigned users</Typography>
+                    <Button sx={{color:'black', backgroundColor: '#eaeaea', width:'150px', textTransform:'none', marginLeft:'10px', borderRadius: '0px', border:'1px solid lightgray'}} onClick={()=>setIsUserDialogOpen(true)}>
+                       <SearchIcon /> Add participant
                     </Button>
                     <UserDialog open={isUserDialogOpen} onClose={()=>setIsUserDialogOpen(false)} selectUsers={(value: User[])=>changeUsers(value)} initialValue={newCertificate.users}/>
-                    <Table sx={{border:'1px solid gray', margin:'10px', width:'950px'}}>
-                    <TableHead>
+                <div style={{padding: '10px', border: '2px solid lightgray', margin: '10px'}}>
+                <TableContainer sx={{borderTop:'1px solid lightgray', width:'611px', maxHeight:'200px'}}>
+                <Table stickyHeader>
+                <TableHead>
             <TableRow>
-            <TableCell></TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Department</TableCell>
-            <TableCell>E-mail</TableCell>
+            <TableCell sx={{width:'50px'}}></TableCell>
+            <TableCell sx={{borderLeft:'1px lightgray solid', width: '200px'}}>Name</TableCell>
+            <TableCell sx={{borderLeft:'1px lightgray solid', width: '200px'}}>Department</TableCell>
+            <TableCell sx={{borderLeft:'1px lightgray solid', width: '200px'}}>E-mail</TableCell>
             </TableRow>
         </TableHead>
         <TableBody>
@@ -156,16 +164,24 @@ function NewCertificate(){
                 </TableRow>
             ))}
         </TableBody>
-        </Table>
-                    
-                    <Button onClick = {onSave} sx={{backgroundColor: 'green', color: 'white'}}>
-                        Save
-                    </Button>
+        </Table> 
+        </TableContainer>
+        </div>
+            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width:'645px'}}>
+                <div>
+                <Link to='/example1'>
+                <Button onClick = {onSave} sx={{backgroundColor: 'green', color: 'white', textTransform:'none', marginLeft:'10px', width:'100px', borderRadius: '0px', "&:hover":{backgroundColor: 'green'}}}>
+                    Save
+                </Button>
+                <Button sx={{backgroundColor: '#eaeaea', color: 'black', textTransform:'none', marginLeft:'10px', width:'100px', borderRadius: '0px'}}>Cancel</Button>
+                </Link>
+                </div>
+                <Button sx={{backgroundColor: '#3c9aca', borderRadius: '0px', textTransform: 'none', color: 'white', width: '120px', "&:hover":{backgroundColor: '#3c9aca'}}}>New comment</Button>
             </div>
-            <div>
-                <Button>Upload</Button>
-                <div style={{border: '2px black solid', width:'500px', height: '700px'}}>
-
+            </div>
+            <div style={{marginLeft:'100px'}}>
+                <Button sx={{textTransform:'none', backgroundColor: '#3f9ac9', color: 'white', borderRadius: '0px', "&:hover":{backgroundColor: '#3f9ac9'}, marginTop:'20px', width:'100px'}}>Upload</Button>
+                <div style={{border: '2px lightgray solid', width:'700px', height: '700px', marginTop:'5px'}}>
                 </div>
             </div>
         </div>
