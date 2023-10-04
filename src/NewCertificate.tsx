@@ -27,13 +27,19 @@ export interface Certificate{
     certificateType: string,
     validFrom: string,
     validTo: string,
-    users: User[]
+    users: User[],
+    comments: Comment[]
+}
+
+interface Comment{
+    user: User,
+    comment: string
 }
 
 function NewCertificate(){    
     
     const uniqueId = Math.floor(Math.random()*10000000000);
-    const [newCertificate, setNewCertificate] = useState<Certificate>({id:uniqueId, supplier:'', certificateType:'', validFrom: '', validTo: '', users:[]});
+    const [newCertificate, setNewCertificate] = useState<Certificate>({id:uniqueId, supplier:'', certificateType:'', validFrom: '', validTo: '', users:[], comments:[]});
 
     const {paramId} = useParams();
     useEffect(()=>{
@@ -65,6 +71,11 @@ function NewCertificate(){
     function changeUsers(value: User[]){
         setNewCertificate({...newCertificate, users: value});
     }
+    function changeComments(){
+        const newComment = {user: userContext.currentUser, comment: commentString};
+        setNewCertificate({...newCertificate, comments: [...newCertificate.comments, newComment]});
+        setCommentsVisible(false);
+    }
     function onSave(){
         const certificatesString = localStorage.getItem('certificates');
         if (paramId && certificatesString){
@@ -76,6 +87,7 @@ function NewCertificate(){
                     certificate.validFrom = newCertificate.validFrom;
                     certificate.validTo = newCertificate.validTo;
                     certificate.users = newCertificate.users;
+                    certificate.comments = newCertificate.comments;
                 }
             })
             localStorage.setItem('certificates', JSON.stringify(certificates));
@@ -100,6 +112,8 @@ function NewCertificate(){
   
     const [isOpen, setIsOpen] = useState(false);
     const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
+    const [commentString, setCommentString] = useState("");
+    const [commentsVisible, setCommentsVisible] = useState(false);
 
     const userContext = useContext(UserContext);
 
@@ -176,7 +190,22 @@ function NewCertificate(){
                 <Button sx={{backgroundColor: '#eaeaea', color: 'black', textTransform:'none', marginLeft:'10px', width:'100px', borderRadius: '0px'}}>Cancel</Button>
                 </Link>
                 </div>
-                <Button sx={{backgroundColor: '#3c9aca', borderRadius: '0px', textTransform: 'none', color: 'white', width: '120px', "&:hover":{backgroundColor: '#3c9aca'}}}>New comment</Button>
+                <Button onClick={()=>setCommentsVisible(true)} sx={{backgroundColor: '#3c9aca', borderRadius: '0px', textTransform: 'none', color: 'white', width: '120px', "&:hover":{backgroundColor: '#3c9aca'}}}>New comment</Button>
+            </div>
+            <div style={{width: '635px', marginLeft: '10px', marginTop: '10px'}}>
+                <div style={{maxHeight:'80px', overflow: "auto",border:'1px solid lightgray', padding: "5px" }}>
+                    {newCertificate.comments.map( item =>
+                        <div style={{borderBottom:'1px solid lightgray'}}>
+                        <Typography>User: {item.user.firstName} </Typography>
+                        <Typography>Comment: {item.comment} </Typography>
+                        </div>
+                    )}
+                </div>
+                {commentsVisible && <div style={{ marginTop: '5px', border:'1px solid lightgray', display:'flex', flexDirection:'column', padding: '5px'}}>
+                    <Typography fontSize={'14px'} fontStyle={'italic'}>{userContext.currentUser.firstName} *</Typography>
+                    <textarea placeholder='comment' rows={4} style={{border:'1px solid lightgray', maxWidth:'615px'}} onChange={(event)=>setCommentString(event.target.value)}/>
+                    <Button onClick={()=>changeComments()} sx={{backgroundColor: '#9f1924', color: 'white', textTransform:'none', width:'100px', borderRadius: '0px', marginTop: '10px'}}>Comment</Button>
+                </div>}
             </div>
             </div>
             <div style={{marginLeft:'100px'}}>

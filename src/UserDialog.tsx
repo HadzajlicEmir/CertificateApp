@@ -33,7 +33,7 @@ export const users:User[] = [
     {id:1, firstName:'Simon', lastName:'Zwolfer', userId:'ZWOELF', department:'ITM/FP', plant:'096', email:'simonz@mail.com'},
     {id:2, firstName:'Wolfgang', lastName:'Stark', userId:'WOLFST', department:'ITM/FP', plant:'094', email:'wolfgangs@mail.com'},
     {id:3, firstName:'Emir', lastName:'Hadzajlic', userId:'HADZEM', department:'PR', plant:'092', email:'emirh@mail.com'},
-    {id:4, firstName:'Wilt', lastName:'Chamberlain', userId:'CHAMWI', department:'HR', plant:'20000', email:'wilth@mail.com'},
+    {id:4, firstName:'Wilt', lastName:'Chamberlain', userId:'CHAMWI', department:'HR', plant:'20000', email:'wiltc@mail.com'},
     {id:5, firstName:'Edin', lastName:'Dzeko', userId:"DZEDIN", department:'FR', plant:'065', email:'edindz@mail.com'},
 ]
 
