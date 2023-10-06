@@ -11,6 +11,7 @@ import Radio from '@mui/material/Radio';
 import { useState } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { useTranslation } from 'react-i18next';
 
 interface SupplierDialog{
     open: boolean,
@@ -26,6 +27,7 @@ interface Supplier{
 }
 
 function SupplierDialog(props: SupplierDialog){
+    const { t } = useTranslation();
     const suppliers = [
         {id:1, supplierName: 'ANDEMIS GmbH', supplierIndex: '1', supplierCity: 'Stuttgart'},    
         {id:2, supplierName: 'DAIMLER AG', supplierIndex: '1', supplierCity: 'Berlin'},
@@ -73,40 +75,40 @@ function SupplierDialog(props: SupplierDialog){
 return(
     <Dialog maxWidth={false} onClose={handleClose} open={open}>
         <div style={{display: 'flex', flexDirection:'row', border:'gray solid 1px', margin:'2px', justifyContent:'space-between'}}>
-        <DialogTitle sx={{}}>Search for suppliers</DialogTitle>
+        <DialogTitle sx={{}}>{t("searchForSupplier")}</DialogTitle>
         <Button sx={{}} onClick={handleClose}> <ClearIcon /> </Button>
         </div>
         <div style={{height: '800px', width: '1000px', backgroundColor: 'white'}} >
         <div style={{display: 'flex', flexDirection:'column', border:'gray solid 1px', margin:'10px',paddingBottom: '10px'}}>
-            <Typography sx={{backgroundColor: '#3f9ac9', color:'white', height:'30px'}}><ArrowDropDownIcon/> Search criteria</Typography>
+            <Typography sx={{backgroundColor: '#3f9ac9', color:'white', height:'30px'}}><ArrowDropDownIcon/>{t("searchCriteria")}</Typography>
             <div style={{display: 'flex', flexDirection:'row'}}>
                 <div style={{marginLeft: '5px'}}>
-                <Typography fontStyle={'italic'}>Supplier name</Typography>
+                <Typography fontStyle={'italic'}>{t("supplierName")}</Typography>
                 <input onChange={(event) => setSupplierNameSearch(event.target.value)} type='text' value={supplierNameSearch} style={{width: '300px', height: '30px'}}></input>
                 </div>
                 <div style={{marginLeft: '5px'}}>
-                <Typography fontStyle={'italic'}>Supplier index</Typography>
+                <Typography fontStyle={'italic'}>{t("supplierIndex")}</Typography>
                 <input onChange={(event) => setSupplierIndexSearch(event.target.value)} type='text' value={supplierIndexSearch} style={{width: '300px', height: '30px'}}></input>
                 </div>
                 <div style={{marginLeft: '5px'}}>
-                <Typography fontStyle={'italic'}>City</Typography>
+                <Typography fontStyle={'italic'}>{t("city")}</Typography>
                 <input onChange={(event) => setSupplierCitySearch(event.target.value)} type='text' value={supplierCitySearch} style={{width: '300px', height: '30px'}}></input>
                 </div>
             </div>
             <div style={{display: 'flex', flexDirection:'row', paddingTop: '30px', marginLeft: '5px'}}>
-            <Button onClick={()=>onSearch()} sx={{width:'200px', backgroundColor: 'darkblue', color: 'white', textTransform:'none'}}>Search</Button>
-            <Button onClick={()=>onReset()} sx={{width:'200px', textTransform:'none'}}>Reset</Button>
+            <Button onClick={()=>onSearch()} sx={{width:'200px', backgroundColor: 'darkblue', color: 'white', textTransform:'none'}}>{t('search')}</Button>
+            <Button onClick={()=>onReset()} sx={{width:'200px', textTransform:'none'}}>{t('reset')}</Button>
             </div>
         </div>
         <div style = {{margin:'10px', border:'1px solid gray'}}>
-        <Typography sx={{backgroundColor: '#3f9ac9', color:'white', height:'30px'}}><ArrowDropDownIcon/>Supplier List</Typography>
+        <Typography sx={{backgroundColor: '#3f9ac9', color:'white', height:'30px'}}><ArrowDropDownIcon/>{t("supplierList")}</Typography>
         <Table sx={{border:'1px solid gray', margin:'10px', width:'950px'}}>
         <TableHead>
             <TableRow>
             <TableCell></TableCell>
-            <TableCell>Supplier name</TableCell>
-            <TableCell>Supplier Index</TableCell>
-            <TableCell>City</TableCell>
+            <TableCell>{t("supplierName")}</TableCell>
+            <TableCell>{t("supplierIndex")}</TableCell>
+            <TableCell>{t("city")}</TableCell>
             </TableRow>
         </TableHead>
         <TableBody>
@@ -121,8 +123,8 @@ return(
         </TableBody>
         </Table>
         <div style={{display: 'flex', flexDirection:'row', paddingTop: '30px', marginLeft: '10px'}}>
-            <Button onClick={() => onSelect()} sx={{backgroundColor:'orange', width:'200px', textTransform:'none'}}>Select</Button>
-            <Button sx={{width:'200px', textTransform:'none'}} onClick={handleClose}>Cancel</Button>
+            <Button onClick={() => onSelect()} sx={{backgroundColor:'orange', width:'200px', textTransform:'none'}}>{t("select")}</Button>
+            <Button sx={{width:'200px', textTransform:'none'}} onClick={handleClose}>{t("cancel")}</Button>
         </div>
         </div>
         </div>

@@ -10,25 +10,30 @@ import NewCertificate from './NewCertificate';
 import { useState } from 'react';
 import { User, users } from './UserDialog';
 import { UserContext } from './UserContext';
+import { useTranslation } from 'react-i18next';
+import { LanguageContext } from './LanguageContext';
 
 function App() {
   const [user, setUser] = useState<User>(users[0])
+  const {t, i18n: {changeLanguage, language}} = useTranslation();
   return (
     <UserContext.Provider value={{ currentUser: user, setCurrentUser: setUser }}>
-   <Router>
-    <Header />
-    <div style={{ display: "flex", flexDirection: "row"}}>
-      <SideMenu />
-           <Routes>
-        <Route path={"/start"} element={<Start />} />
-        <Route path={"/example1"} element={<Example1 />} />
-        <Route path={"/example2"} element={<Example2 />} />
-        <Route path={"/example3"} element={<Example3 />} />
-        <Route path={"/new-certificate/:paramId?"} element={<NewCertificate />} />
-        <Route path={"/"} element={<Start />} />
-      </Routes>  
-    </div>
+    <LanguageContext.Provider value={{currentLanguage: language, setCurrentLanguage: changeLanguage}}>
+    <Router>
+      <Header />
+      <div style={{ display: "flex", flexDirection: "row"}}>
+        <SideMenu />
+        <Routes>
+          <Route path={"/start"} element={<Start />} />
+          <Route path={"/example1"} element={<Example1 />} />
+          <Route path={"/example2"} element={<Example2 />} />
+          <Route path={"/example3"} element={<Example3 />} />
+          <Route path={"/new-certificate/:paramId?"} element={<NewCertificate />} />
+          <Route path={"/"} element={<Start />} />
+        </Routes>  
+      </div>
     </Router>
+    </LanguageContext.Provider>
     </UserContext.Provider>
   );
 }

@@ -1,24 +1,28 @@
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useContext, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useContext } from 'react';
 import { User, users } from './UserDialog';
 import { UserContext } from './UserContext';
+import { LanguageContext } from './LanguageContext';
+import { useTranslation } from 'react-i18next';
+
+
 
 
 function Header(){
-    const {t, i18n: {changeLanguage}} = useTranslation();
-    const [currentLanguage, setCurrentLanguage] = useState("en");
+
+    const { t } = useTranslation();
     const handleChange = (event: SelectChangeEvent) => {
-        setCurrentLanguage(event.target.value as string);
-        changeLanguage(event.target.value as string);
+        languageContext.setCurrentLanguage(event.target.value);
     }
     const userContext = useContext(UserContext)
 
     function handleUserChange(value: User){
         userContext.setCurrentUser(value);
     }
+    const languageContext = useContext(LanguageContext);
+    
 
     return(
         <div style = {{borderBottom: '2px solid gray', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -30,8 +34,8 @@ function Header(){
                 {t("language")} 
                 <Select 
                     sx= {{width: '120px', marginLeft: '5px', height: '40px'}}
-                    value = {currentLanguage}
-                    label = {currentLanguage}
+                    value = {languageContext.currentLanguage}
+                    label = {languageContext.currentLanguage}
                     onChange = {handleChange}
                     >
                         <MenuItem value='en'>English</MenuItem>
@@ -39,7 +43,7 @@ function Header(){
                     </Select>
             </div>
             <div style={{marginLeft: '5px'}}>
-                User:
+                {t("user")}:
                 <Select
                     value={userContext.currentUser.userId}
                     sx= {{width: '120px', marginLeft: '5px', height: '40px'}}

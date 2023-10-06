@@ -18,7 +18,8 @@ import TableRow from '@mui/material/TableRow';
 import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer'
 import { UserContext } from './UserContext';
-import { DesktopDatePicker } from '@mui/x-date-pickers';
+import { useTranslation } from 'react-i18next';
+//import { DesktopDatePicker } from '@mui/x-date-pickers';
 
 
 export interface Certificate{
@@ -36,8 +37,9 @@ interface Comment{
     comment: string
 }
 
-function NewCertificate(){    
-    
+function NewCertificate(){
+        
+    const { t } = useTranslation();
     const uniqueId = Math.floor(Math.random()*10000000000);
     const [newCertificate, setNewCertificate] = useState<Certificate>({id:uniqueId, supplier:'', certificateType:'', validFrom: '', validTo: '', users:[], comments:[]});
 
@@ -82,12 +84,9 @@ function NewCertificate(){
             let certificates:Certificate[] = JSON.parse(certificatesString);
             certificates.forEach((certificate:Certificate) => {
                 if(certificate.id === Number.parseInt(paramId)){
-                    certificate.supplier = newCertificate.supplier;
-                    certificate.certificateType = newCertificate.certificateType;
-                    certificate.validFrom = newCertificate.validFrom;
-                    certificate.validTo = newCertificate.validTo;
-                    certificate.users = newCertificate.users;
-                    certificate.comments = newCertificate.comments;
+                    certificate = {
+                        ...newCertificate
+                    }
                 }
             })
             localStorage.setItem('certificates', JSON.stringify(certificates));
@@ -121,7 +120,7 @@ function NewCertificate(){
         <div style={{display: 'flex', flexDirection: 'row', margin: '10px'}}>
             <div style={{display:'flex', flexDirection:'column'}}>
                 <div style={{ marginBottom: '10px'}}>
-                <Typography fontSize={'14px'} sx={{fontStyle: 'italic', marginLeft:'10px'}}>Supplier: </Typography>
+                <Typography fontSize={'14px'} sx={{fontStyle: 'italic', marginLeft:'10px'}}>{t("supplier")} </Typography>
                 <div style={{display:'flex', flexDirection:'row', marginLeft:'10px'}}>
                     <input readOnly onChange={(event) => changeSupplier(event.target.value)} type='text' value={newCertificate.supplier} style={{ width: '500px', height: '35px', border: '1px solid lightgray', borderRadius: '0px'}}/>
                     <Button sx={{backgroundColor: '#eaeaea', color: 'black', border: '1px solid lightgray', borderRadius: '0px', width:'65px'}} onClick={()=>setIsOpen(true)}><SearchIcon /></Button>
@@ -130,9 +129,9 @@ function NewCertificate(){
                 </div>
                 </div>
                 <div style={{ marginBottom: '10px', marginLeft:'10px'}}>
-                <Typography fontSize={'14px'} sx={{fontStyle: 'italic'}}>Certificate type:</Typography>
+                <Typography fontSize={'14px'} sx={{fontStyle: 'italic'}}>{t("certificateType")}</Typography>
                 <FormControl sx={{width: '635px'}}>
-                <InputLabel>Select your option: </InputLabel>
+                <InputLabel>{t("selectOption")} </InputLabel>
                     <Select sx={{height: '45px', borderRadius: '0px', backgroundColor: '#fafafa'}}
                         label='Select your option'
                         value={newCertificate.certificateType}
@@ -145,16 +144,16 @@ function NewCertificate(){
                 </FormControl>
                 </div>
                 <div style={{ marginBottom: '10px', marginLeft:'10px'}}>
-                    <Typography fontSize={'14px'} sx={{fontStyle: 'italic'}}>Valid from: </Typography>
+                    <Typography fontSize={'14px'} sx={{fontStyle: 'italic'}}>{t("validFrom")} </Typography>
                     <input value={newCertificate.validFrom} onChange={(event) => changeValidFrom(event.target.value)} style={{width: '630px'}} type='date' />
                 </div>
                 <div style={{ marginBottom: '10px', marginLeft:'10px'}}>
-                    <Typography fontSize={'14px'} sx={{fontStyle: 'italic'}}>Valid to: </Typography>
+                    <Typography fontSize={'14px'} sx={{fontStyle: 'italic'}}>{t("validTo")} </Typography>
                     <input value={newCertificate.validTo} onChange={(event) => changeValidTo(event.target.value)} style={{width: '630px'}} type='date' />
                 </div>
-                    <Typography sx={{marginLeft:'10px'}} fontStyle={'italic'} fontSize={'14px'}>Assigned users</Typography>
-                    <Button sx={{color:'black', backgroundColor: '#eaeaea', width:'150px', textTransform:'none', marginLeft:'10px', borderRadius: '0px', border:'1px solid lightgray'}} onClick={()=>setIsUserDialogOpen(true)}>
-                       <SearchIcon /> Add participant
+                    <Typography sx={{marginLeft:'10px'}} fontStyle={'italic'} fontSize={'14px'}>{t("assignedUsers")}</Typography>
+                    <Button sx={{color:'black', backgroundColor: '#eaeaea', width:'200px', textTransform:'none', marginLeft:'10px', borderRadius: '0px', border:'1px solid lightgray'}} onClick={()=>setIsUserDialogOpen(true)}>
+                       <SearchIcon />{t("addParticipant")}
                     </Button>
                     <UserDialog open={isUserDialogOpen} onClose={()=>setIsUserDialogOpen(false)} selectUsers={(value: User[])=>changeUsers(value)} initialValue={newCertificate.users}/>
                 <div style={{padding: '10px', border: '2px solid lightgray', margin: '10px'}}>
@@ -164,7 +163,7 @@ function NewCertificate(){
             <TableRow>
             <TableCell sx={{width:'50px'}}></TableCell>
             <TableCell sx={{borderLeft:'1px lightgray solid', width: '200px'}}>Name</TableCell>
-            <TableCell sx={{borderLeft:'1px lightgray solid', width: '200px'}}>Department</TableCell>
+            <TableCell sx={{borderLeft:'1px lightgray solid', width: '200px'}}>{t("department")}</TableCell>
             <TableCell sx={{borderLeft:'1px lightgray solid', width: '200px'}}>E-mail</TableCell>
             </TableRow>
         </TableHead>
@@ -185,31 +184,31 @@ function NewCertificate(){
                 <div>
                 <Link to='/example1'>
                 <Button onClick = {onSave} sx={{backgroundColor: 'green', color: 'white', textTransform:'none', marginLeft:'10px', width:'100px', borderRadius: '0px', "&:hover":{backgroundColor: 'green'}}}>
-                    Save
+                    {t("save")}
                 </Button>
-                <Button sx={{backgroundColor: '#eaeaea', color: 'black', textTransform:'none', marginLeft:'10px', width:'100px', borderRadius: '0px'}}>Cancel</Button>
+                <Button sx={{backgroundColor: '#eaeaea', color: 'black', textTransform:'none', marginLeft:'10px', width:'100px', borderRadius: '0px'}}>{t("cancel")}</Button>
                 </Link>
                 </div>
-                <Button onClick={()=>setCommentsVisible(true)} sx={{backgroundColor: '#3c9aca', borderRadius: '0px', textTransform: 'none', color: 'white', width: '120px', "&:hover":{backgroundColor: '#3c9aca'}}}>New comment</Button>
+                <Button onClick={()=>setCommentsVisible(true)} sx={{backgroundColor: '#3c9aca', borderRadius: '0px', textTransform: 'none', color: 'white', width: '150px', "&:hover":{backgroundColor: '#3c9aca'}}}>{t("newComment")}</Button>
             </div>
             <div style={{width: '635px', marginLeft: '10px', marginTop: '10px'}}>
                 <div style={{maxHeight:'80px', overflow: "auto",border:'1px solid lightgray', padding: "5px" }}>
                     {newCertificate.comments.map( item =>
                         <div style={{borderBottom:'1px solid lightgray'}}>
-                        <Typography>User: {item.user.firstName} </Typography>
-                        <Typography>Comment: {item.comment} </Typography>
+                        <Typography>{t("user")}: {item.user.firstName} </Typography>
+                        <Typography>{t("comment")}: {item.comment} </Typography>
                         </div>
                     )}
                 </div>
                 {commentsVisible && <div style={{ marginTop: '5px', border:'1px solid lightgray', display:'flex', flexDirection:'column', padding: '5px'}}>
                     <Typography fontSize={'14px'} fontStyle={'italic'}>{userContext.currentUser.firstName} *</Typography>
-                    <textarea placeholder='comment' rows={4} style={{border:'1px solid lightgray', maxWidth:'615px'}} onChange={(event)=>setCommentString(event.target.value)}/>
-                    <Button onClick={()=>changeComments()} sx={{backgroundColor: '#9f1924', color: 'white', textTransform:'none', width:'100px', borderRadius: '0px', marginTop: '10px'}}>Comment</Button>
+                    <textarea placeholder={t("comment")} rows={4} style={{border:'1px solid lightgray', maxWidth:'615px'}} onChange={(event)=>setCommentString(event.target.value)}/>
+                    <Button onClick={()=>changeComments()} sx={{backgroundColor: '#9f1924', color: 'white', textTransform:'none', width:'100px', borderRadius: '0px', marginTop: '10px'}}>{t("comment")}</Button>
                 </div>}
             </div>
             </div>
             <div style={{marginLeft:'100px'}}>
-                <Button sx={{textTransform:'none', backgroundColor: '#3f9ac9', color: 'white', borderRadius: '0px', "&:hover":{backgroundColor: '#3f9ac9'}, marginTop:'20px', width:'100px'}}>Upload</Button>
+                <Button sx={{textTransform:'none', backgroundColor: '#3f9ac9', color: 'white', borderRadius: '0px', "&:hover":{backgroundColor: '#3f9ac9'}, marginTop:'20px', width:'100px'}}>{t("upload")}</Button>
                 <div style={{border: '2px lightgray solid', width:'700px', height: '700px', marginTop:'5px'}}>
                 </div>
             </div>

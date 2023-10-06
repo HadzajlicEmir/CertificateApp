@@ -12,9 +12,11 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { useTranslation } from 'react-i18next';
 
 
 function CertificateOverview(){
+    const { t } = useTranslation();
     const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
     const [id, setId] = useState(0)
     const open = Boolean(anchorEl);
@@ -45,10 +47,10 @@ function CertificateOverview(){
         <TableHead>
             <TableRow>
             <TableCell></TableCell>
-            <TableCell style={{borderLeft:'1px solid lightgray', width:'250px'}}>Supplier</TableCell>
-            <TableCell style={{borderLeft:'1px solid lightgray', width:'250px'}}>Certificate Type</TableCell>
-            <TableCell style={{borderLeft:'1px solid lightgray', width:'250px'}}>Valid from</TableCell>
-            <TableCell style={{borderLeft:'1px solid lightgray', width:'250px'}}>Valid to</TableCell>
+            <TableCell style={{borderLeft:'1px solid lightgray', width:'250px'}}>{t("supplier")}</TableCell>
+            <TableCell style={{borderLeft:'1px solid lightgray', width:'250px'}}>{t("certificateType")}</TableCell>
+            <TableCell style={{borderLeft:'1px solid lightgray', width:'250px'}}>{t("validFrom")}</TableCell>
+            <TableCell style={{borderLeft:'1px solid lightgray', width:'250px'}}>{t("validTo")}</TableCell>
             </TableRow>
         </TableHead>
         <TableBody>
@@ -61,10 +63,10 @@ function CertificateOverview(){
                         onClose={handleClose}
                     >
                     <Link style={{textDecoration:'none', color: 'black'}} to={'/new-certificate/'.concat(id.toString())}>
-                    <MenuItem>Edit</MenuItem>
+                    <MenuItem>{t("edit")}</MenuItem>
                     </Link>
                     <MenuItem sx={{color: 'black'}} onClick={() => handleDelete()}>
-                    Delete
+                    {t("delete")}
                     </MenuItem>
                     </Menu>
                     <TableCell>{row.supplier}</TableCell>

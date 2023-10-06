@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Checkbox from '@mui/material/Checkbox'
+import { useTranslation } from 'react-i18next';
+
 
 interface UserDialog{
     open: boolean,
@@ -38,7 +40,7 @@ export const users:User[] = [
 ]
 
 function UserDialog(props: UserDialog){
-   
+    const { t } = useTranslation();
     const {open, onClose, selectUsers, initialValue} = props;  
     const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
     useEffect(()=>{setSelectedUsers(initialValue)},[initialValue])
@@ -97,52 +99,52 @@ function UserDialog(props: UserDialog){
 return(
     <Dialog maxWidth={false} onClose={handleClose} open={open}>
         <div style={{display: 'flex', flexDirection:'row', border:'gray solid 1px', margin:'2px', justifyContent:'space-between'}}>
-        <DialogTitle sx={{}}>Search for persons</DialogTitle>
+        <DialogTitle sx={{}}>{t("searchForPersons")}</DialogTitle>
         <Button sx={{}} onClick={handleClose}> <ClearIcon /> </Button>
         </div>
         <div style={{height: '800px', width: '1000px', backgroundColor: '#ffffff'}} >
         <div style={{display: 'flex', flexDirection:'column', border:'gray solid 1px', margin:'10px', paddingBottom: '10px'}}>
-            <Typography sx={{backgroundColor: '#3f9ac9', color:'white', height:'30px'}}> <ArrowDropDownIcon/>Search criteria</Typography>
+            <Typography sx={{backgroundColor: '#3f9ac9', color:'white', height:'30px'}}> <ArrowDropDownIcon/>{t("searchCriteria")}</Typography>
             <div style={{display: 'flex', flexDirection:'row'}}>
                 <div style={{marginLeft: '5px'}}>
-                <Typography fontStyle={'italic'}>First name</Typography>
+                <Typography fontStyle={'italic'}>{t("firstName")}</Typography>
                 <input onChange={(event) => setFirstNameSearch(event.target.value)} type='text' value={firstNameSearch} style={{width: '300px', height: '30px'}}></input>
                 </div>
                 <div style={{marginLeft: '5px'}}>
-                <Typography fontStyle={'italic'}>Last name</Typography>
+                <Typography fontStyle={'italic'}>{t("lastName")}</Typography>
                 <input onChange={(event) => setLastNameSearch(event.target.value)} type='text' value={lastNameSearch} style={{width: '300px', height: '30px'}}></input>
                 </div>
                 <div style={{marginLeft: '5px'}}>
-                <Typography fontStyle={'italic'}>User ID</Typography>
+                <Typography fontStyle={'italic'}>{t("userId")}</Typography>
                 <input onChange={(event) => setUserIdSearch(event.target.value)} type='text' value={userIdSearch} style={{width: '300px', height: '30px'}}></input>
                 </div>
             </div>
             <div style={{display: 'flex', flexDirection:'row'}}>
                 <div style={{marginLeft: '5px'}}>
-                <Typography fontStyle={'italic'}>Department</Typography>
+                <Typography fontStyle={'italic'}>{t("department")}</Typography>
                 <input onChange={(event) => setDepartmentSearch(event.target.value)} type='text' value={departmentSearch} style={{width: '300px', height: '30px'}}></input>
                 </div>
                 <div style={{marginLeft: '5px'}}>
-                <Typography fontStyle={'italic'}>Plant</Typography>
+                <Typography fontStyle={'italic'}>{t("plant")}</Typography>
                 <input onChange={(event) => setPlantSearch(event.target.value)} type='text' value={plantSearch} style={{width: '300px', height: '30px'}}></input>
                 </div>
             </div>
             <div style={{display: 'flex', flexDirection:'row', paddingTop: '30px', marginLeft: '5px'}}>
-            <Button onClick={()=>onSearch()} sx={{width:'200px', backgroundColor: '#265b7a', color: 'white', textTransform:'none'}}>Search</Button>
-            <Button onClick={()=>onReset()} sx={{width:'200px', textTransform:'none', backgroundColor: '#f6f6f6', color: 'black'}}>Reset</Button>
+            <Button onClick={()=>onSearch()} sx={{width:'200px', backgroundColor: '#265b7a', color: 'white', textTransform:'none'}}>{t("search")}</Button>
+            <Button onClick={()=>onReset()} sx={{width:'200px', textTransform:'none', backgroundColor: '#f6f6f6', color: 'black'}}>{t("reset")}</Button>
             </div>
         </div>
         <div style={{margin:'10px', border:'1px solid gray'}}>
-        <Typography sx={{backgroundColor: '#3f9ac9', color:'white', height:'30px'}}><ArrowDropDownIcon/>Person List</Typography>
+        <Typography sx={{backgroundColor: '#3f9ac9', color:'white', height:'30px'}}><ArrowDropDownIcon/>{t("personList")}</Typography>
         <Table sx={{border:'1px solid gray', margin:'10px', width:'950px'}}>
         <TableHead>
             <TableRow>
                 <TableCell><Checkbox onChange={(event)=>selectAllUsers(event.target.checked)} size='small'/></TableCell>
-                <TableCell>First name</TableCell>
-                <TableCell>Last name</TableCell>
-                <TableCell>User ID</TableCell>
-                <TableCell>Department</TableCell>
-                <TableCell>Plant</TableCell>
+                <TableCell>{t("firstName")}</TableCell>
+                <TableCell>{t("lastName")}</TableCell>
+                <TableCell>{t("userId")}</TableCell>
+                <TableCell>{t("department")}</TableCell>
+                <TableCell>{t("plant")}</TableCell>
             </TableRow>
         </TableHead>
         <TableBody>
@@ -159,8 +161,8 @@ return(
         </TableBody>
         </Table>
         <div style={{display: 'flex', flexDirection:'row', paddingTop: '10px', paddingBottom: '10px', marginLeft: '10px'}}>
-            <Button onClick={() => onSelect()} sx={{backgroundColor: '#f0d093', width:'200px', textTransform:'none', color:'white', border: '1px solid gray'}}>Select</Button>
-            <Button sx={{width:'200px', textTransform:'none', color: 'black', border: '1px solid gray', marginLeft: '2px', backgroundColor: '#f6f6f6'}} onClick={handleClose}>Cancel</Button>
+            <Button onClick={() => onSelect()} sx={{backgroundColor: '#f0d093', width:'200px', textTransform:'none', color:'white', border: '1px solid gray'}}>{t("select")}</Button>
+            <Button sx={{width:'200px', textTransform:'none', color: 'black', border: '1px solid gray', marginLeft: '2px', backgroundColor: '#f6f6f6'}} onClick={handleClose}>{t("cancel")}</Button>
         </div>
         </div>
         </div>
