@@ -1,12 +1,7 @@
 import SideMenu from "./SideMenu";
 
-function Start(){
-return(
-    <div>
-
-            Start
-        </div>
-)
+function Start() {
+  return <div>Start</div>;
 }
 
 export default Start;
