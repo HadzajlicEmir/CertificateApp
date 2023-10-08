@@ -12,6 +12,7 @@ import { useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useTranslation } from "react-i18next";
+import { commonStyles } from "./common-styles";
 
 interface SupplierDialog {
   open: boolean;
@@ -131,7 +132,10 @@ function SupplierDialog(props: SupplierDialog) {
         }}
       >
         <DialogTitle sx={{}}>{t("searchForSupplier")}</DialogTitle>
-        <Button sx={{}} onClick={handleClose}>
+        <Button
+          sx={{ border: "1px lightgray solid", margin: "5px" }}
+          onClick={handleClose}
+        >
           {" "}
           <ClearIcon />{" "}
         </Button>
@@ -191,21 +195,10 @@ function SupplierDialog(props: SupplierDialog) {
               marginLeft: "5px",
             }}
           >
-            <Button
-              onClick={() => onSearch()}
-              sx={{
-                width: "200px",
-                backgroundColor: "darkblue",
-                color: "white",
-                textTransform: "none",
-              }}
-            >
+            <Button onClick={() => onSearch()} sx={commonStyles.searchButton}>
               {t("search")}
             </Button>
-            <Button
-              onClick={() => onReset()}
-              sx={{ width: "200px", textTransform: "none" }}
-            >
+            <Button onClick={() => onReset()} sx={commonStyles.resetButton}>
               {t("reset")}
             </Button>
           </div>
@@ -251,22 +244,19 @@ function SupplierDialog(props: SupplierDialog) {
             style={{
               display: "flex",
               flexDirection: "row",
-              paddingTop: "30px",
+              paddingTop: "10px",
+              paddingBottom: "10px",
               marginLeft: "10px",
             }}
           >
             <Button
               onClick={() => onSelect()}
-              sx={{
-                backgroundColor: "orange",
-                width: "200px",
-                textTransform: "none",
-              }}
+              sx={commonStyles.selectInDialogButton}
             >
               {t("select")}
             </Button>
             <Button
-              sx={{ width: "200px", textTransform: "none" }}
+              sx={commonStyles.cancelInDialogButton}
               onClick={handleClose}
             >
               {t("cancel")}

@@ -21,6 +21,16 @@ import { UserContext } from "./UserContext";
 import { useTranslation } from "react-i18next";
 //import { DesktopDatePicker } from '@mui/x-date-pickers';
 
+const styles = {
+  icon: {
+    backgroundColor: "#eaeaea",
+    color: "black",
+    border: "1px solid lightgray",
+    borderRadius: "0px",
+    width: "65px",
+  },
+};
+
 export interface Certificate {
   id: number;
   supplier: string;
@@ -48,8 +58,14 @@ function NewCertificate() {
     users: [],
     comments: [],
   });
+  const [isOpen, setIsOpen] = useState(false);
+  const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
+  const [commentString, setCommentString] = useState("");
+  const [commentsVisible, setCommentsVisible] = useState(false);
 
+  const userContext = useContext(UserContext);
   const { paramId } = useParams();
+
   useEffect(() => {
     if (paramId) {
       const certificatesString = localStorage.getItem("certificates");
@@ -68,18 +84,23 @@ function NewCertificate() {
   function changeSupplier(value: string) {
     setNewCertificate({ ...newCertificate, supplier: value });
   }
+
   function changeCertificateType(value: string) {
     setNewCertificate({ ...newCertificate, certificateType: value });
   }
+
   function changeValidFrom(value: string) {
     setNewCertificate({ ...newCertificate, validFrom: value });
   }
+
   function changeValidTo(value: string) {
     setNewCertificate({ ...newCertificate, validTo: value });
   }
+
   function changeUsers(value: User[]) {
     setNewCertificate({ ...newCertificate, users: value });
   }
+
   function changeComments() {
     const newComment = {
       user: userContext.currentUser,
@@ -91,6 +112,7 @@ function NewCertificate() {
     });
     setCommentsVisible(false);
   }
+
   function onSave() {
     const certificatesString = localStorage.getItem("certificates");
     if (paramId && certificatesString) {
@@ -115,16 +137,10 @@ function NewCertificate() {
       }
     }
   }
+
   function removeUser(value: User) {
     changeUsers(newCertificate.users.filter((item) => item.id !== value.id));
   }
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
-  const [commentString, setCommentString] = useState("");
-  const [commentsVisible, setCommentsVisible] = useState(false);
-
-  const userContext = useContext(UserContext);
 
   return (
     <div style={{ display: "flex", flexDirection: "row", margin: "10px" }}>
@@ -155,28 +171,10 @@ function NewCertificate() {
                 borderRadius: "0px",
               }}
             />
-            <Button
-              sx={{
-                backgroundColor: "#eaeaea",
-                color: "black",
-                border: "1px solid lightgray",
-                borderRadius: "0px",
-                width: "65px",
-              }}
-              onClick={() => setIsOpen(true)}
-            >
+            <Button sx={styles.icon} onClick={() => setIsOpen(true)}>
               <SearchIcon />
             </Button>
-            <Button
-              sx={{
-                backgroundColor: "#eaeaea",
-                color: "black",
-                border: "1px solid lightgray",
-                borderRadius: "0px",
-                width: "65px",
-              }}
-              onClick={() => changeSupplier("")}
-            >
+            <Button sx={styles.icon} onClick={() => changeSupplier("")}>
               <ClearIcon />
             </Button>
             <SupplierDialog

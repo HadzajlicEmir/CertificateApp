@@ -12,24 +12,33 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useTranslation } from "react-i18next";
 
+const styles = {
+  tableCellStyle: {
+    borderLeft: "1px solid lightgray",
+    width: "250px",
+  },
+};
+
 function CertificateOverview() {
   const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
   const [id, setId] = useState(0);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<SVGSVGElement>, id: number) => {
-    setAnchorEl(event.currentTarget);
-    setId(id);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   let certificates: Certificate[] = [];
+
   const certificatesString = localStorage.getItem("certificates");
   if (certificatesString) {
     certificates = JSON.parse(certificatesString);
   }
+
+  const handleClick = (event: React.MouseEvent<SVGSVGElement>, id: number) => {
+    setAnchorEl(event.currentTarget);
+    setId(id);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleDelete = () => {
     const updatedValues = certificates.filter((item) => item.id !== id);
@@ -46,24 +55,16 @@ function CertificateOverview() {
           <TableHead>
             <TableRow>
               <TableCell></TableCell>
-              <TableCell
-                style={{ borderLeft: "1px solid lightgray", width: "250px" }}
-              >
+              <TableCell style={styles.tableCellStyle}>
                 {t("supplier")}
               </TableCell>
-              <TableCell
-                style={{ borderLeft: "1px solid lightgray", width: "250px" }}
-              >
+              <TableCell style={styles.tableCellStyle}>
                 {t("certificateType")}
               </TableCell>
-              <TableCell
-                style={{ borderLeft: "1px solid lightgray", width: "250px" }}
-              >
+              <TableCell style={styles.tableCellStyle}>
                 {t("validFrom")}
               </TableCell>
-              <TableCell
-                style={{ borderLeft: "1px solid lightgray", width: "250px" }}
-              >
+              <TableCell style={styles.tableCellStyle}>
                 {t("validTo")}
               </TableCell>
             </TableRow>

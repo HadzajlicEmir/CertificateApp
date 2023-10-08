@@ -19,6 +19,7 @@ function App() {
     t,
     i18n: { changeLanguage, language },
   } = useTranslation();
+
   return (
     <UserContext.Provider
       value={{ currentUser: user, setCurrentUser: setUser }}

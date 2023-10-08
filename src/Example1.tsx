@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 
 function Example1() {
   const { t } = useTranslation();
+
   return (
     <div>
       <Link to="/new-certificate">

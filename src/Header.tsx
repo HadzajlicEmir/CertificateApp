@@ -9,15 +9,16 @@ import { useTranslation } from "react-i18next";
 
 function Header() {
   const { t } = useTranslation();
-  const handleChange = (event: SelectChangeEvent) => {
-    languageContext.setCurrentLanguage(event.target.value);
-  };
   const userContext = useContext(UserContext);
+  const languageContext = useContext(LanguageContext);
 
   function handleUserChange(value: User) {
     userContext.setCurrentUser(value);
   }
-  const languageContext = useContext(LanguageContext);
+
+  const handleChange = (event: SelectChangeEvent) => {
+    languageContext.setCurrentLanguage(event.target.value);
+  };
 
   return (
     <div
