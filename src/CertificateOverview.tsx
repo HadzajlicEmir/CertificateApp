@@ -11,13 +11,7 @@ import { useState } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useTranslation } from "react-i18next";
-
-const styles = {
-  tableCellStyle: {
-    borderLeft: "1px solid lightgray",
-    width: "250px",
-  },
-};
+import { commonStyles } from "./common-styles";
 
 function CertificateOverview() {
   const { t } = useTranslation();
@@ -55,16 +49,16 @@ function CertificateOverview() {
           <TableHead>
             <TableRow>
               <TableCell></TableCell>
-              <TableCell style={styles.tableCellStyle}>
+              <TableCell style={commonStyles.tableCell}>
                 {t("supplier")}
               </TableCell>
-              <TableCell style={styles.tableCellStyle}>
+              <TableCell style={commonStyles.tableCell}>
                 {t("certificateType")}
               </TableCell>
-              <TableCell style={styles.tableCellStyle}>
+              <TableCell style={commonStyles.tableCell}>
                 {t("validFrom")}
               </TableCell>
-              <TableCell style={styles.tableCellStyle}>
+              <TableCell style={commonStyles.tableCell}>
                 {t("validTo")}
               </TableCell>
             </TableRow>

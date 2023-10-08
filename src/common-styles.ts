@@ -33,4 +33,5 @@ export const commonStyles = {
     marginLeft: "2px",
     backgroundColor: "#f6f6f6",
   },
+  tableCell: { borderLeft: "1px lightgray solid", width: "200px" },
 };

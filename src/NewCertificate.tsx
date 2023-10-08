@@ -19,15 +19,75 @@ import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import { UserContext } from "./UserContext";
 import { useTranslation } from "react-i18next";
+import { commonStyles } from "./common-styles";
 //import { DesktopDatePicker } from '@mui/x-date-pickers';
+
+const mainButtonSettings = {
+  border: "1px solid lightgray",
+  borderRadius: "0px",
+};
 
 const styles = {
   icon: {
     backgroundColor: "#eaeaea",
     color: "black",
-    border: "1px solid lightgray",
-    borderRadius: "0px",
     width: "65px",
+    ...mainButtonSettings,
+  },
+  supplierInputStyle: {
+    width: "500px",
+    height: "35px",
+    ...mainButtonSettings,
+  },
+  addParticipantButton: {
+    color: "black",
+    backgroundColor: "#eaeaea",
+    width: "200px",
+    textTransform: "none",
+    marginLeft: "10px",
+    ...mainButtonSettings,
+  },
+  saveButton: {
+    backgroundColor: "green",
+    color: "white",
+    textTransform: "none",
+    marginLeft: "10px",
+    width: "100px",
+    borderRadius: "0px",
+    "&:hover": { backgroundColor: "green" },
+  },
+  cancelButton: {
+    backgroundColor: "#eaeaea",
+    color: "black",
+    textTransform: "none",
+    marginLeft: "10px",
+    width: "100px",
+    borderRadius: "0px",
+  },
+  newCommentButton: {
+    backgroundColor: "#3c9aca",
+    borderRadius: "0px",
+    textTransform: "none",
+    color: "white",
+    width: "150px",
+    "&:hover": { backgroundColor: "#3c9aca" },
+  },
+  commentButton: {
+    backgroundColor: "#9f1924",
+    color: "white",
+    textTransform: "none",
+    width: "100px",
+    borderRadius: "0px",
+    marginTop: "10px",
+  },
+  uploadButton: {
+    textTransform: "none",
+    backgroundColor: "#3f9ac9",
+    color: "white",
+    borderRadius: "0px",
+    "&:hover": { backgroundColor: "#3f9ac9" },
+    marginTop: "20px",
+    width: "100px",
   },
 };
 
@@ -164,12 +224,7 @@ function NewCertificate() {
               onChange={(event) => changeSupplier(event.target.value)}
               type="text"
               value={newCertificate.supplier}
-              style={{
-                width: "500px",
-                height: "35px",
-                border: "1px solid lightgray",
-                borderRadius: "0px",
-              }}
+              style={styles.supplierInputStyle}
             />
             <Button sx={styles.icon} onClick={() => setIsOpen(true)}>
               <SearchIcon />
@@ -238,15 +293,7 @@ function NewCertificate() {
           {t("assignedUsers")}
         </Typography>
         <Button
-          sx={{
-            color: "black",
-            backgroundColor: "#eaeaea",
-            width: "200px",
-            textTransform: "none",
-            marginLeft: "10px",
-            borderRadius: "0px",
-            border: "1px solid lightgray",
-          }}
+          sx={styles.addParticipantButton}
           onClick={() => setIsUserDialogOpen(true)}
         >
           <SearchIcon />
@@ -276,21 +323,11 @@ function NewCertificate() {
               <TableHead>
                 <TableRow>
                   <TableCell sx={{ width: "50px" }}></TableCell>
-                  <TableCell
-                    sx={{ borderLeft: "1px lightgray solid", width: "200px" }}
-                  >
-                    Name
-                  </TableCell>
-                  <TableCell
-                    sx={{ borderLeft: "1px lightgray solid", width: "200px" }}
-                  >
+                  <TableCell sx={commonStyles.tableCell}>Name</TableCell>
+                  <TableCell sx={commonStyles.tableCell}>
                     {t("department")}
                   </TableCell>
-                  <TableCell
-                    sx={{ borderLeft: "1px lightgray solid", width: "200px" }}
-                  >
-                    E-mail
-                  </TableCell>
+                  <TableCell sx={commonStyles.tableCell}>E-mail</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -326,68 +363,41 @@ function NewCertificate() {
         >
           <div>
             <Link to="/example1">
-              <Button
-                onClick={onSave}
-                sx={{
-                  backgroundColor: "green",
-                  color: "white",
-                  textTransform: "none",
-                  marginLeft: "10px",
-                  width: "100px",
-                  borderRadius: "0px",
-                  "&:hover": { backgroundColor: "green" },
-                }}
-              >
+              <Button onClick={onSave} sx={styles.saveButton}>
                 {t("save")}
               </Button>
-              <Button
-                sx={{
-                  backgroundColor: "#eaeaea",
-                  color: "black",
-                  textTransform: "none",
-                  marginLeft: "10px",
-                  width: "100px",
-                  borderRadius: "0px",
-                }}
-              >
-                {t("cancel")}
-              </Button>
+              <Button sx={styles.cancelButton}>{t("cancel")}</Button>
             </Link>
           </div>
           <Button
             onClick={() => setCommentsVisible(true)}
-            sx={{
-              backgroundColor: "#3c9aca",
-              borderRadius: "0px",
-              textTransform: "none",
-              color: "white",
-              width: "150px",
-              "&:hover": { backgroundColor: "#3c9aca" },
-            }}
+            sx={styles.newCommentButton}
           >
             {t("newComment")}
           </Button>
         </div>
         <div style={{ width: "635px", marginLeft: "10px", marginTop: "10px" }}>
-          <div
-            style={{
-              maxHeight: "80px",
-              overflow: "auto",
-              border: "1px solid lightgray",
-              padding: "5px",
-            }}
-          >
-            {newCertificate.comments.map((item) => (
-              <div style={{ borderBottom: "1px solid lightgray" }}>
-                <Typography>
-                  {t("user")}: {item.user.firstName}{" "}
-                </Typography>
-                <Typography>
-                  {t("comment")}: {item.comment}{" "}
-                </Typography>
-              </div>
-            ))}
-          </div>
+          {newCertificate.comments.length > 0 && (
+            <div
+              style={{
+                maxHeight: "80px",
+                overflow: "auto",
+                border: "1px solid lightgray",
+                padding: "5px",
+              }}
+            >
+              {newCertificate.comments.map((item) => (
+                <div style={{ borderBottom: "1px solid lightgray" }}>
+                  <Typography>
+                    {t("user")}: {item.user.firstName}{" "}
+                  </Typography>
+                  <Typography>
+                    {t("comment")}: {item.comment}{" "}
+                  </Typography>
+                </div>
+              ))}
+            </div>
+          )}
           {commentsVisible && (
             <div
               style={{
@@ -409,14 +419,7 @@ function NewCertificate() {
               />
               <Button
                 onClick={() => changeComments()}
-                sx={{
-                  backgroundColor: "#9f1924",
-                  color: "white",
-                  textTransform: "none",
-                  width: "100px",
-                  borderRadius: "0px",
-                  marginTop: "10px",
-                }}
+                sx={styles.commentButton}
               >
                 {t("comment")}
               </Button>
@@ -425,19 +428,7 @@ function NewCertificate() {
         </div>
       </div>
       <div style={{ marginLeft: "100px" }}>
-        <Button
-          sx={{
-            textTransform: "none",
-            backgroundColor: "#3f9ac9",
-            color: "white",
-            borderRadius: "0px",
-            "&:hover": { backgroundColor: "#3f9ac9" },
-            marginTop: "20px",
-            width: "100px",
-          }}
-        >
-          {t("upload")}
-        </Button>
+        <Button sx={styles.uploadButton}>{t("upload")}</Button>
         <div
           style={{
             border: "2px lightgray solid",

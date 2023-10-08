@@ -16,12 +16,14 @@ function SideMenu() {
   const { t } = useTranslation();
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const machineLearningItems = ["example1", "example2", "example3"];
+
   const iconStyle = {
     fontSize: "30px",
     marginRight: "5px",
     marginLeft: "25px",
     color: "#3f9ac9",
   };
+
   const menuItems = [
     { Label: "Start", Icon: <HomeIcon sx={iconStyle} />, isDropDown: false },
     {
