@@ -5,13 +5,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-interface MenuItem {
-  Label: String;
-  Icon: React.ReactNode;
-  isDropDown: boolean;
-  submenuItems: String[];
-}
-
 function SideMenu() {
   const { t } = useTranslation();
   const [submenuOpen, setSubmenuOpen] = useState(false);
@@ -25,10 +18,10 @@ function SideMenu() {
   };
 
   const menuItems = [
-    { Label: "Start", Icon: <HomeIcon sx={iconStyle} />, isDropDown: false },
+    { label: "Start", icon: <HomeIcon sx={iconStyle} />, isDropDown: false },
     {
-      Label: "Machine Learning",
-      Icon: <MenuIcon sx={iconStyle} />,
+      label: "Machine Learning",
+      icon: <MenuIcon sx={iconStyle} />,
       isDropDown: true,
       submenuItems: machineLearningItems,
     },
@@ -53,26 +46,27 @@ function SideMenu() {
       }}
     >
       {menuItems.map((item) => (
-        <div onClick={() => menuClick(item.isDropDown)} key={item.Label}>
+        <div onClick={() => menuClick(item.isDropDown)} key={item.label}>
           <div
             style={{
               display: "flex",
               alignItems: "center",
               marginBottom: "10px",
+              marginTop: "12px",
               color: "#3f9ac9",
             }}
           >
-            {item.Icon}{" "}
+            {item.icon}{" "}
             {item.isDropDown ? (
               <div>
-                {item.Label} <ExpandMoreIcon />
+                {item.label} <ExpandMoreIcon />
               </div>
             ) : (
               <Link
                 style={{ textDecoration: "none", color: "#3f9ac9" }}
-                to={"/".concat(item.Label.toLowerCase())}
+                to={"/".concat(item.label.toLowerCase())}
               >
-                {item.Label}
+                {item.label}
               </Link>
             )}
           </div>

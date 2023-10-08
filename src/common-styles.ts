@@ -23,6 +23,7 @@ export const commonStyles = {
     textTransform: "none",
     color: "white",
     border: "1px solid gray",
+    borderRadius: 0,
     "&:hover": { backgroundColor: "#f0d093" },
   },
   cancelInDialogButton: {
@@ -31,6 +32,7 @@ export const commonStyles = {
     color: "black",
     border: "1px solid gray",
     marginLeft: "2px",
+    borderRadius: 0,
     backgroundColor: "#f6f6f6",
   },
   tableCell: { borderLeft: "1px lightgray solid", width: "200px" },
