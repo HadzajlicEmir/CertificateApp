@@ -12,9 +12,9 @@ import { useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useTranslation } from "react-i18next";
-import { commonStyles } from "./common-styles";
+import { commonStyles } from "../common-styles";
 
-interface SupplierDialog {
+interface SupplierDialogProps {
   open: boolean;
   onClose: () => void;
   selectSupplier: (value: string) => void;
@@ -27,7 +27,7 @@ interface Supplier {
   supplierCity: string;
 }
 
-function SupplierDialog(props: SupplierDialog) {
+function SupplierDialog(props: SupplierDialogProps) {
   const { t } = useTranslation();
   const suppliers = [
     {
@@ -133,7 +133,7 @@ function SupplierDialog(props: SupplierDialog) {
       >
         <DialogTitle sx={{}}>{t("searchForSupplier")}</DialogTitle>
         <Button
-          sx={{ border: "1px lightgray solid", margin: "5px" }}
+          sx={{ border: "1px lightgray solid", margin: "5px", color: "black" }}
           onClick={handleClose}
         >
           {" "}
@@ -141,7 +141,7 @@ function SupplierDialog(props: SupplierDialog) {
         </Button>
       </div>
       <div
-        style={{ height: "800px", width: "1000px", backgroundColor: "white" }}
+        style={{ height: "780px", width: "1000px", backgroundColor: "white" }}
       >
         <div
           style={{
@@ -152,9 +152,7 @@ function SupplierDialog(props: SupplierDialog) {
             paddingBottom: "10px",
           }}
         >
-          <Typography
-            sx={{ backgroundColor: "#3f9ac9", color: "white", height: "30px" }}
-          >
+          <Typography sx={commonStyles.blueHeadline}>
             <ArrowDropDownIcon />
             {t("searchCriteria")}
           </Typography>
@@ -204,9 +202,7 @@ function SupplierDialog(props: SupplierDialog) {
           </div>
         </div>
         <div style={{ margin: "10px", border: "1px solid gray" }}>
-          <Typography
-            sx={{ backgroundColor: "#3f9ac9", color: "white", height: "30px" }}
-          >
+          <Typography sx={commonStyles.blueHeadline}>
             <ArrowDropDownIcon />
             {t("supplierList")}
           </Typography>

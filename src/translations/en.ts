@@ -36,4 +36,5 @@ export const translationsEnglish = {
   edit: "Edit",
   delete: "Delete",
   comment: "Comment",
+  warning: "Please fill all fields!",
 };

@@ -1,17 +1,17 @@
 import "./App.css";
-import Header from "./Header";
-import SideMenu from "./SideMenu";
+import Header from "./components/Header";
+import SideMenu from "./components/SideMenu";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Start from "./Start";
-import Example1 from "./Example1";
-import Example2 from "./Example2";
-import Example3 from "./Example3";
-import NewCertificate from "./NewCertificate";
+import Start from "./views/Start";
+import Example1 from "./views/Example1";
+import Example2 from "./views/Example2";
+import Example3 from "./views/Example3";
+import NewCertificate from "./components/NewCertificate";
 import { useState } from "react";
-import { User, users } from "./UserDialog";
-import { UserContext } from "./UserContext";
+import { User, users } from "./components/UserDialog";
+import { UserContext } from "./contexts/UserContext";
 import { useTranslation } from "react-i18next";
-import { LanguageContext } from "./LanguageContext";
+import { LanguageContext } from "./contexts/LanguageContext";
 
 function App() {
   const [user, setUser] = useState<User>(users[0]);

@@ -36,4 +36,5 @@ export const translationsGerman = {
   edit: "Bearbeiten",
   delete: "Löschen",
   comment: "Kommentar",
+  warning: "Bitte füllen Sie alle Felder aus!",
 };

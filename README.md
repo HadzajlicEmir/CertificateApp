@@ -1,46 +1,36 @@
-# Getting Started with Create React App
+Application CertificateApp is written using React framework with TypeScript. Local storage was used for storing data.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Running the application steps:
 
-## Available Scripts
+1. npm install
+2. npm start
 
-In the project directory, you can run:
+Visually, the application contains three elements: header, side menu and the main part of the application.
 
-### `npm start`
+The header is shown on the top of the screen and it is implemented in Header.tsx. In the header you can change the language of the application and also the user. Both menus were implemented using Select component from the MUI library. For the information on the current language and user to be visible to the entire application, React context was used. For the translation, react-i18n library was also used.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The side menu contains the navigation menu and it is implemented in SideMenu.tsx, navigation was implemented using the react-router-dom library. The menu options can also be a dropdown menu with even more options for navigation.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The main part of the application can show different things:
 
-### `npm test`
+1. Test screens: Start, Example 2 and Example 3 which demonstrate the functionalities of the navigation menu.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Screen Example 1 displays the currently stored certificates from local storage. The table for display was implemented using MUI Table component. Clicking on the button New Certificate gives the user the option to add another certificate after which the updated table will be displayed.
 
-### `npm run build`
+2.1 Adding a new certificate was implemented in the component NewCertificate.tsx, the same component is used for editing an already existing certificate, with the initial information already displayed from local storage.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2.1.1 Adding or changing a supplier is implemented through the component SupplierDialog.tsx which is opened after clicking the search icon. The dialog is used to filter and select a supplier, filtering can be done based on different fields, and selection is implemented via a radio button.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2.1.2 Choosing the certificate type is implemented with a selection menu.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2.1.3 Valid from and valid to dates are selected via a input type date component.
 
-### `npm run eject`
+2.1.4 Apart from those necessary fields the user has a few more options:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+2.1.4.1 Participants can be added to the certificate via the add participant button which opens a dialog implemented in UserDialog.tsx, where the user can filter and select any amount of participants by clicking on their respective checkbox.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2.1.4.2 A comment can be added via the New comment button which will display with its content and name of the user that made it.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+2.1.4.3 A file can be uploaded to the certificate after which the user can preview it, link to the file is stored as an element of the certificate in local storage.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+2.2 In the certificate overview table, next to every certificate there is a gear button which opens a menu with the options to either edit or delete the certificate which are both immediately shown in the table.

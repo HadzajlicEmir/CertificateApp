@@ -2,10 +2,10 @@ import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useContext } from "react";
-import { User, users } from "./UserDialog";
-import { UserContext } from "./UserContext";
-import { LanguageContext } from "./LanguageContext";
+import { UserContext } from "../contexts/UserContext";
+import { LanguageContext } from "../contexts/LanguageContext";
 import { useTranslation } from "react-i18next";
+import { User, users } from "./UserDialog";
 
 function Header() {
   const { t } = useTranslation();

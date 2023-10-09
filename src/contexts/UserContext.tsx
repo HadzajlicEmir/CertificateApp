@@ -1,6 +1,5 @@
 import { createContext } from "react";
-import { User } from "./UserDialog";
-import { users } from "./UserDialog";
+import { User, users } from "../components/UserDialog";
 
 export interface UserContextValue {
   currentUser: User;

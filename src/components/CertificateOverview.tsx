@@ -11,7 +11,7 @@ import { useState } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useTranslation } from "react-i18next";
-import { commonStyles } from "./common-styles";
+import { commonStyles } from "../common-styles";
 
 function CertificateOverview() {
   const { t } = useTranslation();

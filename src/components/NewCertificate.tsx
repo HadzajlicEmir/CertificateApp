@@ -4,8 +4,8 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Typography from "@mui/material/Typography";
-import { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import SupplierDialog from "./SupplierDialog";
@@ -17,9 +17,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
-import { UserContext } from "./UserContext";
+import { UserContext } from "../contexts/UserContext";
 import { useTranslation } from "react-i18next";
-import { commonStyles } from "./common-styles";
+import { commonStyles } from "../common-styles";
 //import { DesktopDatePicker } from '@mui/x-date-pickers';
 
 const mainButtonSettings = {
@@ -99,6 +99,7 @@ export interface Certificate {
   validTo: string;
   users: User[];
   comments: Comment[];
+  uploadedFile: string;
 }
 
 interface Comment {
@@ -108,6 +109,7 @@ interface Comment {
 
 function NewCertificate() {
   const { t } = useTranslation();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const uniqueId = Math.floor(Math.random() * 10000000000);
   const [newCertificate, setNewCertificate] = useState<Certificate>({
     id: uniqueId,
@@ -117,6 +119,7 @@ function NewCertificate() {
     validTo: "",
     users: [],
     comments: [],
+    uploadedFile: "",
   });
   const [isOpen, setIsOpen] = useState(false);
   const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
@@ -124,6 +127,7 @@ function NewCertificate() {
   const [commentsVisible, setCommentsVisible] = useState(false);
 
   const userContext = useContext(UserContext);
+  const navigate = useNavigate();
   const { paramId } = useParams();
 
   useEffect(() => {
@@ -140,6 +144,29 @@ function NewCertificate() {
       }
     }
   }, [paramId]);
+
+  const handleButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          setNewCertificate({
+            ...newCertificate,
+            uploadedFile: event.target?.result.toString(),
+          });
+        }
+      };
+
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
 
   function changeSupplier(value: string) {
     setNewCertificate({ ...newCertificate, supplier: value });
@@ -174,27 +201,41 @@ function NewCertificate() {
   }
 
   function onSave() {
-    const certificatesString = localStorage.getItem("certificates");
-    if (paramId && certificatesString) {
-      let certificates: Certificate[] = JSON.parse(certificatesString);
-      certificates.forEach((certificate: Certificate) => {
-        if (certificate.id === Number.parseInt(paramId)) {
-          certificate = {
-            ...newCertificate,
-          };
-        }
-      });
-      localStorage.setItem("certificates", JSON.stringify(certificates));
-    } else {
-      if (certificatesString) {
-        let certificates = JSON.parse(certificatesString);
-        certificates.push(newCertificate);
+    if (
+      newCertificate.supplier !== "" &&
+      newCertificate.certificateType !== "" &&
+      newCertificate.validFrom !== "" &&
+      newCertificate.validTo !== ""
+    ) {
+      const certificatesString = localStorage.getItem("certificates");
+      if (paramId && certificatesString) {
+        let certificates: Certificate[] = JSON.parse(certificatesString);
+        certificates.forEach((certificate: Certificate) => {
+          if (certificate.id === Number.parseInt(paramId)) {
+            certificate.certificateType = newCertificate.certificateType;
+            certificate.comments = newCertificate.comments;
+            certificate.supplier = newCertificate.supplier;
+            certificate.uploadedFile = newCertificate.uploadedFile;
+            certificate.users = newCertificate.users;
+            certificate.validFrom = newCertificate.validFrom;
+            certificate.validTo = newCertificate.validTo;
+          }
+        });
         localStorage.setItem("certificates", JSON.stringify(certificates));
       } else {
-        let certificates = [];
-        certificates.push(newCertificate);
-        localStorage.setItem("certificates", JSON.stringify(certificates));
+        if (certificatesString) {
+          let certificates = JSON.parse(certificatesString);
+          certificates.push(newCertificate);
+          localStorage.setItem("certificates", JSON.stringify(certificates));
+        } else {
+          let certificates = [];
+          certificates.push(newCertificate);
+          localStorage.setItem("certificates", JSON.stringify(certificates));
+        }
       }
+      navigate("/example1");
+    } else {
+      alert(t("warning"));
     }
   }
 
@@ -362,10 +403,10 @@ function NewCertificate() {
           }}
         >
           <div>
+            <Button onClick={onSave} sx={styles.saveButton}>
+              {t("save")}
+            </Button>
             <Link to="/example1">
-              <Button onClick={onSave} sx={styles.saveButton}>
-                {t("save")}
-              </Button>
               <Button sx={styles.cancelButton}>{t("cancel")}</Button>
             </Link>
           </div>
@@ -428,7 +469,16 @@ function NewCertificate() {
         </div>
       </div>
       <div style={{ marginLeft: "100px" }}>
-        <Button sx={styles.uploadButton}>{t("upload")}</Button>
+        <Button onClick={handleButtonClick} sx={styles.uploadButton}>
+          {t("upload")}
+          <input
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            id="fileSelect"
+            type="file"
+            onChange={handleFileChange}
+          />
+        </Button>
         <div
           style={{
             border: "2px lightgray solid",
@@ -436,7 +486,17 @@ function NewCertificate() {
             height: "700px",
             marginTop: "5px",
           }}
-        ></div>
+        >
+          {newCertificate.uploadedFile && (
+            <iframe
+              width={"700px"}
+              height={"700px"}
+              title="iframe-view"
+              id="iframeView"
+              src={newCertificate.uploadedFile}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

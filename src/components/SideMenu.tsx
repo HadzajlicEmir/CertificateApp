@@ -4,6 +4,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Typography } from "@mui/material";
 
 function SideMenu() {
   const { t } = useTranslation();
@@ -43,6 +44,7 @@ function SideMenu() {
         width: "250px",
         backgroundColor: "#e8e9eb",
         height: "calc(100vh - 45px)",
+        paddingTop: "20px",
       }}
     >
       {menuItems.map((item) => (
@@ -51,15 +53,16 @@ function SideMenu() {
             style={{
               display: "flex",
               alignItems: "center",
-              marginBottom: "10px",
-              marginTop: "12px",
+              marginBottom: "7px",
+              marginTop: "3px",
               color: "#3f9ac9",
             }}
           >
-            {item.icon}{" "}
+            {item.icon}
             {item.isDropDown ? (
-              <div>
-                {item.label} <ExpandMoreIcon />
+              <div style={{ display: "flex" }}>
+                <Typography sx={{}}>{item.label}</Typography>
+                <ExpandMoreIcon sx={{ ml: "30px" }} />
               </div>
             ) : (
               <Link
@@ -78,7 +81,11 @@ function SideMenu() {
               {item.submenuItems?.map((subItem) => (
                 <div>
                   <Link
-                    style={{ textDecoration: "none", color: "#3f9ac9" }}
+                    style={{
+                      textDecoration: "none",
+                      color: "#3f9ac9",
+                      margin: "25px",
+                    }}
                     to={"/".concat(subItem.replaceAll(" ", "").toLowerCase())}
                   >
                     {t(subItem)}

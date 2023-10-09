@@ -12,9 +12,9 @@ import ClearIcon from "@mui/icons-material/Clear";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Checkbox from "@mui/material/Checkbox";
 import { useTranslation } from "react-i18next";
-import { commonStyles } from "./common-styles";
+import { commonStyles } from "../common-styles";
 
-interface UserDialog {
+interface UserDialogProps {
   open: boolean;
   onClose: () => void;
   selectUsers: (value: User[]) => void;
@@ -79,7 +79,7 @@ export const users: User[] = [
   },
 ];
 
-function UserDialog(props: UserDialog) {
+function UserDialog(props: UserDialogProps) {
   const { t } = useTranslation();
   const { open, onClose, selectUsers, initialValue } = props;
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
@@ -154,14 +154,17 @@ function UserDialog(props: UserDialog) {
           justifyContent: "space-between",
         }}
       >
-        <DialogTitle sx={{}}>{t("searchForPersons")}</DialogTitle>
-        <Button sx={{}} onClick={handleClose}>
+        <DialogTitle>{t("searchForPersons")}</DialogTitle>
+        <Button
+          sx={{ border: "1px lightgray solid", margin: "5px", color: "black" }}
+          onClick={handleClose}
+        >
           {" "}
           <ClearIcon />{" "}
         </Button>
       </div>
       <div
-        style={{ height: "800px", width: "1000px", backgroundColor: "#ffffff" }}
+        style={{ height: "850px", width: "1000px", backgroundColor: "#ffffff" }}
       >
         <div
           style={{
@@ -172,9 +175,7 @@ function UserDialog(props: UserDialog) {
             paddingBottom: "10px",
           }}
         >
-          <Typography
-            sx={{ backgroundColor: "#3f9ac9", color: "white", height: "30px" }}
-          >
+          <Typography sx={commonStyles.blueHeadline}>
             {" "}
             <ArrowDropDownIcon />
             {t("searchCriteria")}
@@ -232,7 +233,7 @@ function UserDialog(props: UserDialog) {
             style={{
               display: "flex",
               flexDirection: "row",
-              paddingTop: "30px",
+              paddingTop: "20px",
               marginLeft: "5px",
             }}
           >
@@ -245,9 +246,7 @@ function UserDialog(props: UserDialog) {
           </div>
         </div>
         <div style={{ margin: "10px", border: "1px solid gray" }}>
-          <Typography
-            sx={{ backgroundColor: "#3f9ac9", color: "white", height: "30px" }}
-          >
+          <Typography sx={commonStyles.blueHeadline}>
             <ArrowDropDownIcon />
             {t("personList")}
           </Typography>

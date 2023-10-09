@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import CertificateOverview from "./CertificateOverview";
+import CertificateOverview from "../components/CertificateOverview";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 

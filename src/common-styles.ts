@@ -36,4 +36,12 @@ export const commonStyles = {
     backgroundColor: "#f6f6f6",
   },
   tableCell: { borderLeft: "1px lightgray solid", width: "200px" },
+  blueHeadline: {
+    backgroundColor: "#3f9ac9",
+    color: "white",
+    height: "40px",
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+  },
 };
