@@ -42,7 +42,10 @@ function SupplierDialog(props: SupplierDialogProps) {
       supplierIndex: "1",
       supplierCity: "Berlin",
     },
-    { id: 3, supplierName: "DCCS", supplierIndex: "2", supplierCity: "Graz" },
+    { id: 3, 
+      supplierName: "DCCS", 
+      supplierIndex: "2", 
+      supplierCity: "Graz" },
     {
       id: 4,
       supplierName: "Mercedes",
@@ -221,13 +224,12 @@ function SupplierDialog(props: SupplierDialogProps) {
               {supplierList.map((row) => (
                 <TableRow key={row.id}>
                   <TableCell>
-                    {" "}
                     <Radio
                       checked={row.id === selectedSupplier.id}
                       value={row.supplierName}
                       onChange={() => setSelectedSupplier(row)}
                       name="radio-options"
-                    />{" "}
+                    />
                   </TableCell>
                   <TableCell>{row.supplierName}</TableCell>
                   <TableCell>{row.supplierIndex}</TableCell>

@@ -39,7 +39,7 @@ function Header() {
           fontSize: "25px",
         }}
       >
-        DCCS Tuzla
+        Company Tuzla
       </Typography>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div>
